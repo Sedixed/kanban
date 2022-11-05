@@ -15,11 +15,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {    
-    private UserPasswordHasherInterface $hasher;
-
-    public function __construct(UserPasswordHasherInterface $hasher) {
-        $this->hasher = $hasher;
-    }
 
     public function load(ObjectManager $manager): void
     {
@@ -74,7 +69,7 @@ class AppFixtures extends Fixture
                 $user = new User();
                 
                 $user->setUsername($faker->userName())
-                    ->setPassword($this->hasher->hashPassword($user, 'password'))
+                    ->setPlainPassword('password')
                     ->addKanban($kanban)
                     ->setRoles(['ROLE_USER']);
                 
