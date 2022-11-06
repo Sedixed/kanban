@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Constants\Route as RouteConstants;
+use App\Constants\Template;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,23 +15,32 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthenticationController extends AbstractController
 {
-    #[Route('/login', name: 'authentication.login', methods: ['GET', 'POST'])]
-    public function login(AuthenticationUtils $authenticationUtils): Response {
-
-        return $this->render('/home/authentication/login.html.twig', [
+    #[Route(
+        '/login', 
+        name: RouteConstants::LOGIN_ROUTE, 
+        methods: ['GET', 'POST']
+    )]
+    public function login(AuthenticationUtils $authenticationUtils): Response 
+    {
+        return $this->render(Template::PAGE_LOGIN, [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError()
         ]);
     }
 
-    #[Route('/logout', name: 'authentication.logout')]
+    #[Route('/logout', name: RouteConstants::LOGOUT_ROUTE, methods: ['GET'])]
     public function logout() {
         // Nothing to do here :)
     }
 
-    #[Route('/register', name: 'authentication.register', methods: ['GET', 'POST'])]
-    public function register(Request $request, EntityManagerInterface $manager): Response {
-
+    #[Route(
+        '/register', 
+        name: RouteConstants::REGISTER_ROUTE, 
+        methods: ['GET', 'POST']
+    )]
+    public function register(Request $request, EntityManagerInterface $manager)
+        : Response 
+    {
         $user = new User();
         $user->setRoles(['ROLE_USER']);
         $form = $this->createForm(RegistrationType::class, $user);
@@ -43,11 +54,10 @@ class AuthenticationController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('authentication.login');
-
+            return $this->redirectToRoute(RouteConstants::LOGIN_ROUTE);
         }
 
-        return $this->render('/home/authentication/register.html.twig', [
+        return $this->render(Template::PAGE_REGISTER, [
             'form' => $form->createView()
         ]);
     }
