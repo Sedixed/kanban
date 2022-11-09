@@ -47,10 +47,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Invitation::class, orphanRemoval: true)]
     private Collection $invitations;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Kanban::class, orphanRemoval: true)]
+    private Collection $kanbans;
+
     public function __construct()
     {
         $this->kanban = new ArrayCollection();
         $this->invitations = new ArrayCollection();
+        $this->kanbans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,5 +188,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Kanban>
+     */
+    public function getKanbans(): Collection
+    {
+        return $this->kanbans;
     }
 }

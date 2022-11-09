@@ -34,4 +34,9 @@ class Template {
      */
     const PAGE_LOGIN = self::PAGES_BASE . "authentication/login.html.twig";
 
+    /**
+     * Kanban creation page template's path
+     */
+    const PAGE_KANBAN_CREATION = self::PAGES_BASE . "kanban/create.html.twig";
+
 }

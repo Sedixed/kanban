@@ -25,7 +25,8 @@ class Kanban
     #[ORM\OneToMany(
         mappedBy: 'kanban', 
         targetEntity: Column::class, 
-        orphanRemoval: true
+        orphanRemoval: true,
+        cascade: ["persist"]
     )]
     private Collection $columns;
 
@@ -34,6 +35,10 @@ class Kanban
 
     #[ORM\OneToMany(mappedBy: 'kanban', targetEntity: Invitation::class, orphanRemoval: true)]
     private Collection $invitations;
+
+    #[ORM\ManyToOne(inversedBy: 'kanbans')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $owner = null;
 
     public function __construct()
     {
@@ -101,6 +106,13 @@ class Kanban
         return $this;
     }
 
+    public function unsetColumns(): self
+    {
+        $this->columns = new ArrayCollection();
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, User>
      */
@@ -154,6 +166,18 @@ class Kanban
                 $invitation->setKanban(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

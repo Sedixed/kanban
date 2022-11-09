@@ -24,4 +24,8 @@ class Route {
      */
     const LOGOUT_ROUTE = "authentication.logout";
 
+    /**
+     * Kanban creation route
+     */
+    const KANBAN_CREATE_ROUTE = "kanban.create";
 }
