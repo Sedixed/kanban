@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $nbKanban; ++$i) {
             $kanban = new Kanban();
 
-            $kanban->setName($faker->name())
+            $kanban->setName($faker->sentence(6, false))
                 ->setPrivacy(mt_rand(0, 1) ? KanbanPrivacy::Public 
                     : KanbanPrivacy::Private);
             
@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
                     $task = new Task();
 
                     $task->setName($faker->name())
-                        ->setDescription($faker->sentence(15))
+                        ->setDescription($faker->text(250))
                         ->setKanbanColumn($column);
                     if (mt_rand(0, 1)) {
                         $task->setLimitDate((new DateTime())->modify('+2 day'));

@@ -38,21 +38,19 @@ class AuthenticationController extends AbstractController
         name: RouteConstants::REGISTER_ROUTE, 
         methods: ['GET', 'POST']
     )]
-    public function register(Request $request, EntityManagerInterface $manager)
-        : Response 
+    public function register(
+        Request $request, 
+        EntityManagerInterface $manager
+    ): Response 
     {
-        $user = new User();
-        $user->setRoles(['ROLE_USER']);
-        $form = $this->createForm(RegistrationType::class, $user);
+        $form = $this->createForm(RegistrationType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+            $manager->persist($form->getData());
+            $manager->flush();
 
             $this->addFlash('success', 'Inscription réalisée avec succès !');
-
-            $manager->persist($user);
-            $manager->flush();
 
             return $this->redirectToRoute(RouteConstants::LOGIN_ROUTE);
         }

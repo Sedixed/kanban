@@ -14,10 +14,12 @@ class UserListener {
     }
 
     public function prePersist(User $user) {
+        $user->addRole("ROLE_USER");
         $this->encodePassword($user);
     }
 
     public function preUpdate(User $user) {
+        $user->addRole("ROLE_USER");
         $this->encodePassword($user);
     }
 
