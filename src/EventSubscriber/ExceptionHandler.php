@@ -88,7 +88,7 @@ class ExceptionHandler implements EventSubscriberInterface
     public function processOtherException(ExceptionEvent $event)
     {
         // In production environment, the error is not handled
-        if ($_ENV == "prod") {
+        if ($_ENV["APP_ENV"] == "prod") {
             // TODO : Redirect to 500 or 404 error page
         }
     }
