@@ -2,6 +2,9 @@
 
 namespace App\Constants;
 
+/**
+ * Associate the app routes with their templates. 
+ */
 class RouteToTemplate
 {
     /**
@@ -17,13 +20,19 @@ class RouteToTemplate
     ];
 
     /**
-     * Returns the template path associated to the given route name.
+     * Returns the template path associated to the given route name. If the 
+     * route is invalid, tjhen it returns null.
      *
      * @param  string $route The route name.
-     * @return string        The associated template path
+     * @return string        The associated template path or null if the route 
+     *                       is invalid.
      */
     public static function getTemplateByRoute(string $route): ?string
     {
+        if (!array_key_exists($route, self::ROUTE_TO_TEMPLATE)) {
+            return null;
+        }
+
         return self::ROUTE_TO_TEMPLATE[$route];
     }
 }

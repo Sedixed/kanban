@@ -5,7 +5,6 @@ namespace App\EventSubscriber;
 use App\Constants\RouteToTemplate;
 use App\Exception\FunctionalException;
 use App\Service\TwigService;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -54,10 +53,9 @@ class ExceptionHandler implements EventSubscriberInterface
             // If it's a FunctionalException then we handle it
             $this->processFunctionalException($event, $exception);
             return;
-        } else {
-            // Otherwise if it's an other type of exception we handle it differently
-            $this->processOtherException($event);
         }
+        // Otherwise if it's an other type of exception we handle it differently
+        $this->processOtherException($event);
     }
 
     public function processFunctionalException(
@@ -91,7 +89,7 @@ class ExceptionHandler implements EventSubscriberInterface
     {
         // In production environment, the error is not handled
         if ($_ENV == "prod") {
-            // TODO : Redirect to 500 error page
+            // TODO : Redirect to 500 or 404 error page
         }
     }
 }
