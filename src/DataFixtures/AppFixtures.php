@@ -71,6 +71,10 @@ class AppFixtures extends Fixture
                     ->setPlainPassword('password')
                     ->addKanban($kanban)
                     ->setRoles(['ROLE_USER']);
+                    
+                if ($j == 0) {
+                    $kanban->setOwner($user);
+                }
                 
                 $manager->persist($user);
             }

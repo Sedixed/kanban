@@ -14,7 +14,7 @@ class Invitation
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'invitations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Kanban $kanban = null;
 
     #[ORM\ManyToOne(inversedBy: 'invitations')]

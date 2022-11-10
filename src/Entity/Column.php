@@ -20,7 +20,7 @@ class Column
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'columns')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Kanban $kanban = null;
 
     #[ORM\OneToMany(mappedBy: 'kanban_column', targetEntity: Task::class)]
@@ -34,9 +34,11 @@ class Column
     #[ORM\Column]
     private ?int $offset = null;
 
-    public function __construct()
-    {
+    public function __construct($name = null, $offset = null)
+    {   
         $this->tasks = new ArrayCollection();
+        $this->name = $name;
+        $this->offset = $offset;
     }
 
     public function getId(): ?int
