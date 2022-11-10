@@ -13,8 +13,6 @@ class HomeController extends AbstractController {
 
     #[Route('/', name: RouteConstants::HOME_ROUTE, methods: ['GET'])]
     public function index(): Response {
-        throw new FunctionalException("Erreur de OUF", 404);
-
         return $this->render(Template::PAGE_HOME);
     }
 }
