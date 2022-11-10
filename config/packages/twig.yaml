@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         appTitle: '%env(APP_TITLE)%'
+        error: false
 
 when@test:
     twig:

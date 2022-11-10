@@ -4,6 +4,10 @@
 
 {% block body %}
 
+{% if error %}
+    <span style="color: red">{{ errorMessage }}</span>
+{% endif %}
+
 <div class="d-flex justify-content-center container">
     <h1 class="display-1 mt-4">WESH SALOPE</h1>
 </div>
