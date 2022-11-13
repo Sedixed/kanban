@@ -8,8 +8,21 @@
     <span style="color: red">{{ errorMessage }}</span>
 {% endif %}
 
-<div class="d-flex justify-content-center container">
-    <h1 class="display-1 mt-4">WESH SALOPE</h1>
+<div class="d-flex align-items-center flex-column container">
+    <h1 class="display-1 mt-4 mb-4">Kanbans publics</h1>
+
+    <div class="container justify-content-left d-flex flex-wrap">
+        {% for kanban in kanbans %}
+            <div class="card border-info mx-2 my-2 mb-3 kanban-card">
+                <div class="card-header">
+                    <h2>{{ kanban.owner.username|u.truncate(50, '...') }}</h2>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{ kanban.name|u.truncate(100, '...') }}</h3>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

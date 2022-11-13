@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class KanbanController extends AbstractController
 {
@@ -21,7 +22,7 @@ class KanbanController extends AbstractController
         name: RouteConstants::KANBAN_CREATE_ROUTE, 
         methods: ['GET', 'POST']
     )]
-    public function create(Request $request, EntityManagerInterface $manager)
+    public function create(Request $request, EntityManagerInterface $manager, UserInterface $user)
         : Response 
     {
         $kanban = new Kanban();
@@ -40,6 +41,8 @@ class KanbanController extends AbstractController
             $kanban->addColumn(new Column('Terminées', count($columns) + 1));
 
             $this->addFlash('success', 'Kanban créé avec succès !');
+
+            $kanban->setOwner($user);
 
             $manager->persist($kanban);
             $manager->flush();
