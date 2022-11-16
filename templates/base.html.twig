@@ -1,33 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %} - {{ appTitle }} </title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
-            <link rel="stylesheet" href="https://bootswatch.com/5/superhero/bootstrap.min.css">
+            {# <link rel="stylesheet" href="https://bootswatch.com/5/superhero/bootstrap.min.css"> #}
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-            <script type="application/javascript" src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script type="application/javascript" src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
+            {# <script type="application/javascript" src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script> #}
+            {# <script type="application/javascript" src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script> #}
         {% endblock %}
     </head>
 
     <body>
+        {# Header #}
         {% block header %}
             {% include templateConst("PARTIAL_HEADER") %}
         {% endblock %}
- 
-        <div class="d-flex">
-            {% if app.user %}
-                {% block sidebar %}
-                    {% include templateConst("PARTIAL_SIDEBAR") %}
-                {% endblock %}
-            {% endif %}
 
-            {% block body %}{% endblock %}
-        </div>
+        {# Body #}
+        {% block body %}{% endblock %}
     </body>
 </html>

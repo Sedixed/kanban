@@ -1,0 +1,59 @@
+h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.kanbans {
+    display: flex;
+    margin: 0 auto;
+    flex-flow: row wrap;
+    width: 90%;
+}
+
+.kanbans .kanban {
+    margin: 40px 0;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    box-shadow: 0px 0px 17px 6px rgba(0,0,0,0.48);
+    border-radius: 3px;
+    width: 30%;
+}
+
+.kanbans .kanban:nth-child(3n + 1), .kanbans .kanban:nth-child(3n + 2) {
+    margin-right: 5%;
+}
+
+.kanbans .kanban .kanban-top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanbans .kanban .kanban-top-info .arrow-wrapper {
+    width: 35px;
+    height: 35px;
+    background-color: #007185;
+    clip-path: circle();
+    transition-duration: .5s;
+}
+
+.kanbans .kanban .kanban-top-info .arrow {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: rgba(0, 0, 0, 0);
+    clip-path: polygon(10% 40%, 50% 40%, 50% 20%, 90% 50%, 50% 80%, 50% 60%, 10% 60%);
+    cursor: pointer;
+}
+
+.kanbans .kanban .kanban-top-info .arrow-wrapper:hover {
+    transform: translateX(10%);
+}
+
+.kanbans .kanban .kanban-top-info h2 {
+    display: inline-block;
+    margin: 0;
+    color: #c45500;
+}

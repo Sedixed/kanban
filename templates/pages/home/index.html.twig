@@ -3,26 +3,25 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-
-{% if error %}
-    <span style="color: red">{{ errorMessage }}</span>
-{% endif %}
-
-<div class="d-flex align-items-center flex-column container">
-    <h1 class="display-1 mt-4 mb-4">Kanbans publics</h1>
-
-    <div class="container justify-content-left d-flex flex-wrap">
+    <h1>Kanbans publics</h1>
+    {# Liste des kanbans #}
+    <div class="kanbans">
         {% for kanban in kanbans %}
-            <div class="card border-info mx-2 my-2 mb-3 kanban-card">
-                <div class="card-header">
-                    <h2>{{ kanban.owner.username|u.truncate(50, '...') }}</h2>
+            <div class="kanban">
+                <div class="kanban-top-info">                
+                    <h2>
+                        {{ 
+                            "Kanban de #{kanban.owner.username}" 
+                            | u.truncate(50, '...') 
+                        }}
+                    </h2>
+                    <div class="arrow-wrapper">
+                        <a href="#" class="arrow">Voir le Kanban</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h3 class="card-title">{{ kanban.name|u.truncate(100, '...') }}</h3>
-                </div>
+                <hr>
+                <h3>{{ kanban.name | u.truncate(100, '...') }}</h3>
             </div>
         {% endfor %}
     </div>
-</div>
-
 {% endblock %}
