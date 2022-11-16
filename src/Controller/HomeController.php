@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Constants\KanbanPrivacy;
 use App\Constants\Route as RouteConstants;
 use App\Constants\Template;
-use App\Exception\FunctionalException;
 use App\Repository\KanbanRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
