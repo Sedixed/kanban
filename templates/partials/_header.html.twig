@@ -27,24 +27,6 @@
         </div>
         {# Login, register and logout buttons #}
         <div class="auth-btn">
-            {# {% if app.user %}
-                <button class="logout">
-                    <a href="{{ url(routeConst("LOGOUT_ROUTE")) }}">
-                        Déconnexion
-                    </a>
-                </button>
-            {% else %}
-                <button class="login">
-                    <a href="{{ url(routeConst("LOGIN_ROUTE")) }}">
-                        Connexion
-                    </a>
-                </button>
-                <button class="register">
-                    <a href="{{ url(routeConst("REGISTER_ROUTE")) }}">
-                        Inscription
-                    </a>
-                </button>
-            {% endif %} #}
             {% if app.user %}
                 <form method="get" action="{{ url(routeConst("LOGOUT_ROUTE")) }}">
                     <button class="logout">Déconnexion</button>
