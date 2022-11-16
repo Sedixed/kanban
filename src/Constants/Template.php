@@ -17,6 +17,8 @@ class Template {
      */
     const PARTIAL_HEADER = self::PARTIALS_BASE . "_header.html.twig";
 
+    const PARTIAL_SIDEBAR = self::PARTIALS_BASE . "_sidebar.html.twig";
+
     /**
      * Root folder for pages templates.
      * 

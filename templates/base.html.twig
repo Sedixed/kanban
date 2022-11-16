@@ -19,6 +19,15 @@
         {% block header %}
             {% include templateConst("PARTIAL_HEADER") %}
         {% endblock %}
-        {% block body %}{% endblock %}
+ 
+        <div class="d-flex">
+            {% if app.user %}
+                {% block sidebar %}
+                    {% include templateConst("PARTIAL_SIDEBAR") %}
+                {% endblock %}
+            {% endif %}
+
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
