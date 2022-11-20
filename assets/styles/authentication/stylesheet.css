@@ -1,0 +1,73 @@
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.auth-form .input-container, 
+.auth-form .error-message, 
+.auth-form .form-errors-list {
+    width: 30%;
+    margin-bottom: 30px;
+}
+
+.auth-form .error-message, .auth-form .form-errors-list {
+    padding: 5px;
+}
+
+.auth-form .error-message, .auth-form .form-errors-list {
+    color: red;
+}
+
+.auth-form .input-container {
+    position: relative;
+}
+
+.auth-form .input-container input {
+    width: 100%;
+    padding: 10px;
+}
+
+.auth-form .input-container label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition-duration: .25s;
+    color: gray;
+}
+
+
+.auth-form .input-container input:focus + label, 
+.auth-form .input-container input:not(:placeholder-shown) + label {
+    left: 0;
+    top: -50%;
+    font-size: 0.7rem;
+    color: blue;
+}
+
+.auth-form button {
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #18bc9c;
+    font-size: 1.2rem;
+    color: white;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+.auth-form button:hover {
+    background-color: #14a085;
+}
+
+/* Register form errors list */
+
+.auth-form .form-errors-list ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}

@@ -20,38 +20,30 @@ class RegistrationType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'minlength' => '3',
-                    'maxlength' => '255'
+                    'maxlength' => '255',
+                    'placeholder' => ''
                 ],
                 'label' => 'Pseudonyme',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length(['min' => 3, 'max' => 255])
-                ]
+                ],
+                'invalid_message' => 'Ce pseudonyme est déjà utilisé'
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
                     'attr' => [
-                        'class' => 'form-control'
+                        'placeholder' => ''
                     ],
-                    'label' => 'Mot de passe',
-                    'label_attr' => [
-                        'class' => 'form-label mt-4'
-                    ]
+                    'label' => 'Mot de passe'
                 ],
                 'second_options' => [
                     'attr' => [
-                        'class' => 'form-control'
+                        'placeholder' => ''
                     ],
-                    'label' => 'Confirmation du mot de passe',
-                    'label_attr' => [
-                        'class' => 'form-label mt-4'
-                    ]
+                    'label' => 'Confirmation du mot de passe'
                 ],
                 'invalid_message' => 'Les mots de passes doivent être identiques.'
             ])
