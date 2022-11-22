@@ -1,49 +1,44 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">{{ appTitle }}</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home
-                        <span class="visually-hidden">(current)</span>
+<nav>
+    {# Application title #}
+    <a href="{{ url(routeConst("HOME_ROUTE")) }}" class="app-title">
+        {{ appTitle }}
+    </a>
+    <div class="nav-content">    
+        {# Navigation links #}
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <a href="{{ url(routeConst("KANBAN_CREATE_ROUTE")) }}">
+                        Créer un kanban
                     </a>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
-                </div>
-                </li>
-            </ul>
-            <div class="d-flex justify-content-end">
-            {% if app.user %}
-                    <a class="btn btn-dark" href="/logout">Déconnexion</a>
-                {% else %}
-                    <a class="btn btn-dark mx-2" href="/register">Inscription</a>
-                    <a class="btn btn-dark" href="/login">Connexion</a>
+                {% if app.user %}
+                    <li>
+                        <a href="#">Mes kanbans</a>
+                    </li>
+                    <li>
+                        <a href="#">Mes tâches</a>
+                    </li>
+                    <li>
+                        <a href="#">Invitations</a>
+                    </li>
                 {% endif %}
-            </div>
-            {#
-            <form class="d-flex justify-content-end">
-                <input class="form-control me-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>#}
+            </ul>
+        </div>
+        {# Login, register and logout buttons #}
+        <div class="auth-btn">
+            {% if app.user %}
+                <form method="get" action="{{ url(routeConst("LOGOUT_ROUTE")) }}">
+                    <button class="logout">Déconnexion</button>
+                </form>
+            {% else %}
+                <form method="get" action="{{ url(routeConst("LOGIN_ROUTE")) }}">
+                    <button class="login">Connexion</button>
+                </form>
+                <form method="get" action="{{ url(routeConst("REGISTER_ROUTE")) }}">
+                    <button class="register">Inscription</button>
+                </form>
+            {% endif %}
         </div>
     </div>
 </nav>

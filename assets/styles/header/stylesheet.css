@@ -1,0 +1,75 @@
+nav {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    background-color: rgb(44, 62, 80);
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    margin: 0 20px;
+    font-size: 1.25rem;
+}
+
+.nav-links ul {
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+}
+
+.nav-links ul li {
+    padding-right: 10px;
+}
+
+.nav-links ul li a {
+    transition-duration: .3s;
+}
+
+.nav-links ul li a:hover {
+    color: #18bc9c;
+}
+
+.auth-btn {
+    display: flex;
+    justify-content: flex-end;
+    width: 20%;
+    padding-right: 5%;
+}
+
+.auth-btn button {
+    margin: 0 5px;
+    padding: 5px;
+    transition-duration: .3s;
+    color: white;
+    font-size: 1.15rem;
+    border-style: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.auth-btn button:hover {
+    transform: translateY(-3px);
+}
+
+.auth-btn .logout {
+    background-color: #c44133;
+}
+
+.auth-btn .login {
+    background-color: #fd841f;
+}
+
+.auth-btn .register {
+    background-color: #e14d2a;
+}

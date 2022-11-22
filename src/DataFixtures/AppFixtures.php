@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
 
         // Create some kanbans
-        $nbKanban = 15;
+        $nbKanban = 40;
         $maxColumnsPerKanban = 4;
         $maxTasksPerColumn = 2;
         $maxUsersPerKanban = 4;

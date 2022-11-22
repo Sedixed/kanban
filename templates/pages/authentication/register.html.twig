@@ -4,11 +4,42 @@
 
 {% block body %}
 
-<div class="container">
+<h1 class="mt-4">Inscription</h1>
 
-    <h1 class="mt-4">Inscription</h1>
+{{ form_start(form, { 'attr': { 'class': 'auth-form' } }) }}
 
-    {{ form(form) }}
+{% if form_errors(form.username) %}
+    <div class="form-errors-list">
+        {{ form_errors(form.username) }}
+    </div>
+{% endif %}
+<div class="input-container">
+    {{ form_widget(form.username) }}
+    {{ form_label(form.username) }}
 </div>
+
+{% if form_errors(form.plainPassword.first) %}
+    <div class="form-errors-list">
+        {{ form_errors(form.plainPassword.first) }}
+    </div>
+{% endif %}
+<div class="input-container">
+    {{ form_widget(form.plainPassword.first) }}
+    {{ form_label(form.plainPassword.first) }}
+</div>
+
+{% if form_errors(form.plainPassword.second) %}
+    <div class="form-errors-list">
+        {{ form_errors(form.plainPassword.second) }}
+    </div>
+{% endif %}
+<div class="input-container">
+    {{ form_widget(form.plainPassword.second) }}
+    {{ form_label(form.plainPassword.second) }}
+</div>
+
+{{ form_rest(form) }}
+
+{{ form_end(form) }}
 
 {% endblock %}

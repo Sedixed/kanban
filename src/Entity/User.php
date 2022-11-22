@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[UniqueEntity('username')]
+#[UniqueEntity('username', message: "Ce pseudonyme est déjà utilisé.")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
