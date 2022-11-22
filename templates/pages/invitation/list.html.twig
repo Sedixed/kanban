@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invitations de {{ user.username }}{% endblock %}
+
+{% block body %}
+
+<div>
+<h1>Invitations de {{ user.username }}</h1>
+
+<ul>
+{% for invitation in invitations %}
+    <li>
+    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ kanban.name }}</a>
+    {# boutons de confirm/rejeter invitation en ajax ? #}
+    </li>
+{% endfor %}
+</ul>
+
+</div>
+
+
+{% endblock %}

@@ -51,4 +51,11 @@ class Route {
      * @var string
      */
     const KANBAN_BY_USER_ROUTE = "kanban.user.list";
+
+    /**
+     * Invitations of a user route.
+     * 
+     * @var string
+     */
+    const INVITATION_BY_USER_ROUTE = "invitation.user.list";
 }

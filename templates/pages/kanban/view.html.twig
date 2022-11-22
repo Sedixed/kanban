@@ -38,5 +38,10 @@
     <li>{{ inv.user.name }}</li>
 {% endfor %}
 
+{% if app.user == kanban.owner %}
+    {# Traiter les invitations (possibilité d'envoyer )#}
+{% endif %}
+
+
 </div>
 {% endblock %}

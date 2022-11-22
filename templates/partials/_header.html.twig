@@ -14,13 +14,13 @@
                 </li>
                 {% if app.user %}
                     <li>
-                        <a href="#">Mes kanbans</a>
+                        <a href="{{ url(routeConst("KANBAN_BY_USER_ROUTE"), {'user': app.user}) }}">Mes kanbans</a>
                     </li>
                     <li>
                         <a href="#">Mes tâches</a>
                     </li>
                     <li>
-                        <a href="#">Invitations</a>
+                        <a href="{{ url(routeConst("INVITATION_BY_USER_ROUTE"), {'user': app.user}) }}">Invitations</a>
                     </li>
                 {% endif %}
             </ul>

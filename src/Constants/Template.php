@@ -67,4 +67,11 @@ class Template {
      * @var string
      */
     const PAGE_KANBAN_BY_USER_LIST = self::PAGES_BASE . "kanban/list.html.twig";
+
+    /**
+     * Invitation of a user page template's path.
+     * 
+     * @var string
+     */
+    const PAGE_INVITATION_BY_USER_LIST = self::PAGES_BASE . "invitation/list.html.twig";
 }

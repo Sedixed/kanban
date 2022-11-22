@@ -45,7 +45,7 @@
     left: 0;
     top: -50%;
     font-size: 0.7rem;
-    color: blue;
+    color: rgb(73, 110, 148);
 }
 
 .auth-form button {

@@ -10,7 +10,7 @@
 <ul>
 {% for kanban in kanbans_owned %}
     <li>
-    {{ kanban.name }}
+    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}">{{ kanban.name }}</a>
     </li>
 {% endfor %}
 </ul>
@@ -20,7 +20,7 @@
 <ul>
 {% for kanban in kanbans_invited %}
     <li>
-    {{ kanban.name }}
+    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}">{{ kanban.name }}</a>
     </li>
 {% endfor %}
 </ul>
