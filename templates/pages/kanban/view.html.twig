@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ kanban.name }}
+{% endblock %}
+
+{% block body %}
+<div>
+<p>Nom du Kanban : {{ kanban.name }}</p>
+<p>Propriétaire : {{ kanban.owner.username }}</p>
+
+<p>Utilisateurs :</p>
+<ul>
+{% for user in kanban.users %}
+    <li>{{ user.username }}</li>
+{% endfor %}
+</ul>
+
+<p>Colonnes :</p>
+<ul>
+{% for col in kanban.columns %}
+    <li>{{ col.name }}</li>
+
+    <ul>
+    {% for task in col.tasks %}
+        <li>
+            <p>{{ task.name }}</p>
+            <p>Description : {{ task.description }}</p>
+            <p>Date limite : {{ task.getLimitDate|date("m/d/Y") }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+</ul>
+
+<p>Utilisateurs invités (rien normalement avec les fixtures) :</p>
+{% for inv in kanban.invitations %}
+    <li>{{ inv.user.name }}</li>
+{% endfor %}
+
+</div>
+{% endblock %}

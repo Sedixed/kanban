@@ -13,10 +13,12 @@ class RouteToTemplate
      * @var array
      */
     private const ROUTE_TO_TEMPLATE = [
-        Route::HOME_ROUTE          => Template::PAGE_HOME,
-        Route::LOGIN_ROUTE         => Template::PAGE_LOGIN,
-        Route::REGISTER_ROUTE      => Template::PAGE_REGISTER,
-        Route::KANBAN_CREATE_ROUTE => Template::PAGE_KANBAN_CREATION
+        Route::HOME_ROUTE           => Template::PAGE_HOME,
+        Route::LOGIN_ROUTE          => Template::PAGE_LOGIN,
+        Route::REGISTER_ROUTE       => Template::PAGE_REGISTER,
+        Route::KANBAN_CREATE_ROUTE  => Template::PAGE_KANBAN_CREATION,
+        Route::KANBAN_ROUTE         => Template::PAGE_KANBAN_VIEW,
+        Route::KANBAN_BY_USER_ROUTE => Template::PAGE_KANBAN_BY_USER_LIST
     ];
 
     /**

@@ -53,4 +53,18 @@ class Template {
      * @var string
      */
     const PAGE_KANBAN_CREATION = self::PAGES_BASE . "kanban/create.html.twig";
+
+    /**
+     * Kanban view page template's path.
+     * 
+     * @var string
+     */
+    const PAGE_KANBAN_VIEW = self::PAGES_BASE . "kanban/view.html.twig";
+
+    /**
+     * Kanban by user list page template's path.
+     * 
+     * @var string
+     */
+    const PAGE_KANBAN_BY_USER_LIST = self::PAGES_BASE . "kanban/list.html.twig";
 }

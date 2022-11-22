@@ -39,4 +39,16 @@ class KanbanRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function getInvitedKanbans($user): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT k
+            FROM App\Entity\Kanban k JOIN k.users us WHERE :user IN (us) AND :user <> k.owner'
+        )->setParameter('user', $user);
+
+        return $query->getResult();
+    }
 }

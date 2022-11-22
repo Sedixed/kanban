@@ -6,13 +6,14 @@ use App\Entity\Column;
 use App\Entity\Kanban;
 use App\Constants\Template;
 use App\Form\KanbanCreationType;
+use App\Repository\KanbanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Constants\Route as RouteConstants;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class KanbanController extends AbstractController
 {
@@ -51,6 +52,39 @@ class KanbanController extends AbstractController
 
         return $this->render(Template::PAGE_KANBAN_CREATION, [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route(
+        '/kanban/get/{id}', 
+        name: RouteConstants::KANBAN_ROUTE, 
+        methods: ['GET', 'POST']
+    )]
+    public function view(KanbanRepository $repo, int $id): Response {
+        $kanban = $repo->findOneBy(['id' => $id]);
+
+        return $this->render(Template::PAGE_KANBAN_VIEW, [
+            "kanban" => $kanban
+        ]);
+    }
+
+    #[Route(
+        '/kanban/list',
+        name: RouteConstants::KANBAN_BY_USER_ROUTE, 
+        methods: ['GET']
+    )]
+    public function list(KanbanRepository $repo, UserInterface $user): Response {
+        $kanbans_owned = $repo->findBy(
+            ['owner' => $user],
+            ['name' => 'ASC']
+        );
+
+        $kanbans_invited = $repo->getInvitedKanbans($user);
+
+        return $this->render(Template::PAGE_KANBAN_BY_USER_LIST, [
+            'kanbans_owned' => $kanbans_owned,
+            'kanbans_invited' => $kanbans_invited,
+            'user' => $user
         ]);
     }
 }

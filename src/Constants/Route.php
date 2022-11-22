@@ -37,4 +37,18 @@ class Route {
      * @var string
      */
     const KANBAN_CREATE_ROUTE = "kanban.create";
+
+    /**
+     * Kanban route.
+     * 
+     * @var string
+     */
+    const KANBAN_ROUTE = "kanban.view";
+
+    /**
+     * Kanban by user route.
+     * 
+     * @var string
+     */
+    const KANBAN_BY_USER_ROUTE = "kanban.user.list";
 }
