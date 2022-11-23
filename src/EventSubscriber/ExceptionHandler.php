@@ -81,6 +81,7 @@ class ExceptionHandler implements EventSubscriberInterface
         $response = new Response();
         $response->setContent($content);
         $response->setStatusCode($exception->getHttpStatus());
+        $response->headers->set("X-Error-Message", $exception->getMessage());
 
         $event->setResponse($response);
     }

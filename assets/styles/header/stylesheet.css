@@ -47,7 +47,7 @@ nav a {
     padding-right: 5%;
 }
 
-.auth-btn button {
+.auth-btn a {
     margin: 0 5px;
     padding: 5px;
     transition-duration: .3s;
@@ -58,7 +58,7 @@ nav a {
     cursor: pointer;
 }
 
-.auth-btn button:hover {
+.auth-btn a:hover {
     transform: translateY(-3px);
 }
 

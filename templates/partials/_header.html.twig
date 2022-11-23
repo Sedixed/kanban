@@ -28,16 +28,16 @@
         {# Login, register and logout buttons #}
         <div class="auth-btn">
             {% if app.user %}
-                <form method="get" action="{{ url(routeConst("LOGOUT_ROUTE")) }}">
-                    <button class="logout">Déconnexion</button>
-                </form>
+                <a href="{{ url(routeConst("LOGOUT_ROUTE")) }}" class="logout">
+                    Déconnexion
+                </a>
             {% else %}
-                <form method="get" action="{{ url(routeConst("LOGIN_ROUTE")) }}">
-                    <button class="login">Connexion</button>
-                </form>
-                <form method="get" action="{{ url(routeConst("REGISTER_ROUTE")) }}">
-                    <button class="register">Inscription</button>
-                </form>
+                <a href="{{ url(routeConst("LOGIN_ROUTE")) }}" class="login">
+                    Connexion
+                </a>
+                <a href="{{ url(routeConst("REGISTER_ROUTE")) }}" class="register">
+                    Inscription
+                </a>
             {% endif %}
         </div>
     </div>
