@@ -46,6 +46,7 @@ h1 {
     color: rgba(0, 0, 0, 0);
     clip-path: polygon(10% 40%, 50% 40%, 50% 20%, 90% 50%, 50% 80%, 50% 60%, 10% 60%);
     cursor: pointer;
+    user-select: none;
 }
 
 .kanbans .kanban .kanban-top-info .arrow-wrapper:hover {

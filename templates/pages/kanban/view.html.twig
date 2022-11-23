@@ -35,7 +35,7 @@
 
 <p>Utilisateurs invités (rien normalement avec les fixtures) :</p>
 {% for inv in kanban.invitations %}
-    <li>{{ inv.user.name }}</li>
+    <li>{{ inv.user.username }}</li>
 {% endfor %}
 
 {% if app.user == kanban.owner %}

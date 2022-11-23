@@ -27,23 +27,23 @@ const invitations = document.querySelectorAll('.invitation');
 // Creation of a XML HTTP Request
 xhr = createXhrObject();
 
-
-//  getId : retrieves the substring 'id' from the string str which has the following syntax :
-//      <prefix>-<id>
-function getId(str) {
-    return str.substring(str.indexOf('-') + 1);
-}
-
 //  handleResponse : handles the response received upon sending a request with the function
 //      sendRequest. Deletes the container which has an identifier with the following syntax :
 //      "invitation-"<id>
 function handleResponse(id) {
     if (xhr.readyState == 4) {
 		if (xhr.status == 200) {
-            document.querySelector('#invitation-' + id).remove();
-			console.log(xhr.responseText);
+            document.querySelector("div[data-invitation-id='" + id + "']").remove();
 		} else {
-			console.log('Error :\n' + xhr.responseText);
+            var error = document.querySelector('.failure-flash');
+            if (error != null) {
+                error.remove();
+            }
+            var div = document.createElement('div');
+            div.setAttribute('class', 'failure-flash');
+            var text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
+            div.appendChild(text);
+            document.querySelector('h1').after(div);
 		}
 	}
 }
@@ -51,12 +51,12 @@ function handleResponse(id) {
 //  sendRequest : sends an asynchronous request containing the id of the
 //      invitation handled, and the action performed (accept or reject)
 function sendRequest(event, action) {
-    const invId = getId(event.currentTarget.id);
+    const invId = event.currentTarget.dataset.invitationId;
     xhr.onreadystatechange = function() { handleResponse(invId); };
-	xhr.open("POST", "/invitation/list", true);
+	xhr.open("POST", "/invitation/" + action, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	
-    var data = {id: invId, action: action};
+    var data = {id: invId};
 	xhr.send(JSON.stringify(data));
 }
 

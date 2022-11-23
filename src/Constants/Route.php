@@ -58,4 +58,18 @@ class Route {
      * @var string
      */
     const INVITATION_BY_USER_ROUTE = "invitation.user.list";
+
+    /**
+     * Invitations acceptation route.
+     * 
+     * @var string
+     */
+    const INVITATION_ACCEPT_ROUTE = "invitation.accept";
+
+    /**
+     * Invitations rejection route.
+     * 
+     * @var string
+     */
+    const INVITATION_REJECT_ROUTE = "invitation.reject";
 }

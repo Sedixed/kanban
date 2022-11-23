@@ -1,24 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Invitations de {{ user.username }}{% endblock %}
+{% block title %}Invitations{% endblock %}
 
 {% block body %}
 
 <div>
-<h1>Invitations de {{ user.username }}</h1>
-
-<div class="invitations">
-{% for invitation in user.invitations %}
-    <div id="invitation-{{ invitation.id }}" class="invitation">
- 
-        <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ invitation.kanban.name }}</a>
-        <button id="accept-{{ invitation.id }}" class="accept">Accepter</button>
-        <button id="reject-{{ invitation.id }}" class="reject">Refuser</button>
+    <h1>Invitations de {{ user.username }}</h1>
+    <div class="invitations">
+        {% for invitation in user.invitations %}
+            <div data-invitation-id="{{ invitation.id }}" class="invitation">
+                <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ invitation.kanban.name }}</a>
+                <button data-invitation-id="{{ invitation.id }}" class="accept">Accepter</button>
+                <button data-invitation-id="{{ invitation.id }}" class="reject">Refuser</button>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
 </div>
-
-</div>
-
 
 {% endblock %}

@@ -8,11 +8,20 @@ html body {
     background-color: #eaeded;
 }
 
-.success-flash {
+.success-flash, .failure-flash {
     width: 50%;
     margin: 15px auto;
     padding: 10px;
-    border: 1px solid rgb(4, 110, 4);
     border-radius: 5px;
+    text-align: center;
+}
+
+.success-flash {
+    border: 1px solid rgb(4, 110, 4);
     background-color: rgba(54, 238, 54, 0.8);
+}
+
+.failure-flash {
+    border: 1px solid rgb(104, 23, 36);
+    background-color: rgba(241, 2, 14, 0.8);
 }
