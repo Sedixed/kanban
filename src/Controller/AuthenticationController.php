@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Constants\Route as RouteConstants;
 use App\Constants\Template;
-use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

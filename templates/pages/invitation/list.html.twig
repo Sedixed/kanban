@@ -7,14 +7,16 @@
 <div>
 <h1>Invitations de {{ user.username }}</h1>
 
-<ul>
-{% for invitation in invitations %}
-    <li>
-    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ kanban.name }}</a>
-    {# boutons de confirm/rejeter invitation en ajax ? #}
-    </li>
+<div class="invitations">
+{% for invitation in user.invitations %}
+    <div id="invitation-{{ invitation.id }}" class="invitation">
+ 
+        <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ invitation.kanban.name }}</a>
+        <button id="accept-{{ invitation.id }}" class="accept">Accepter</button>
+        <button id="reject-{{ invitation.id }}" class="reject">Refuser</button>
+    </div>
 {% endfor %}
-</ul>
+</div>
 
 </div>
 

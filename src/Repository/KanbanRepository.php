@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Kanban;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Kanban>
@@ -40,7 +41,7 @@ class KanbanRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInvitedKanbans($user): array
+    public function getInvitedKanbans(User $user): array
     {
         $entityManager = $this->getEntityManager();
 

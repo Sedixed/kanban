@@ -16,3 +16,5 @@ import './styles/authentication/stylesheet.css'
 import './bootstrap.js';
 
 import './js/kanban/create.js';
+
+import './js/invitation/ajax.js';

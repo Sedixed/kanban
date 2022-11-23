@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\Column;
 use App\Entity\Kanban;
 use App\Constants\KanbanPrivacy;
+use App\Entity\Invitation;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -26,12 +27,15 @@ class AppFixtures extends Fixture
         $maxUsersPerKanban = 4;
 
         $firstKanban = null;
+        $sndKanban = null;
 
         for ($i = 0; $i < $nbKanban; ++$i) {
             $kanban = new Kanban();
 
             if ($i == 0) {
                 $firstKanban = $kanban;
+            } else if ($i == 1) {
+                $sndKanban = $kanban;
             }
 
             $kanban->setName($faker->sentence(6, false))
@@ -97,6 +101,12 @@ class AppFixtures extends Fixture
         $firstKanban->setOwner($def_user)->setPrivacy(KanbanPrivacy::Public);
         $manager->persist($def_user);
         $manager->persist($firstKanban);
+
+        $invitation = new Invitation();
+        $invitation->setKanban($sndKanban)
+        ->setUser($def_user);
+
+        $manager->persist($invitation);
 
         $manager->flush();
     }
