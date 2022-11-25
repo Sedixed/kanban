@@ -33,15 +33,47 @@
 {% endfor %}
 </ul>
 
-<p>Utilisateurs invités (rien normalement avec les fixtures) :</p>
+<p>Utilisateurs invités :</p>
 {% for inv in kanban.invitations %}
     <li>{{ inv.user.username }}</li>
 {% endfor %}
 
 {% if app.user == kanban.owner %}
-    {# Traiter les invitations (possibilité d'envoyer )#}
-{% endif %}
 
+{% for message in app.flashes('success') %}
+    <div class="success-flash">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('warning') %}
+    <div class="warning-flash">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="failure-flash">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<form 
+    class="" 
+    action="{{ path('invitation.send', {'id': kanban.id}) }}" 
+    method="post">
+    <div class="input-container">
+        <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            value="" placeholder="" required>
+        <label for="username">Pseudonyme</label>
+    </div>
+
+    <button type="submit">Inviter sur le Kanban</button>
+</form>
+{% endif %}
 
 </div>
 {% endblock %}

@@ -72,4 +72,11 @@ class Route {
      * @var string
      */
     const INVITATION_REJECT_ROUTE = "invitation.reject";
+
+    /**
+     * Invitations sending route.
+     * 
+     * @var string
+     */
+    const INVITATION_SEND_ROUTE = "invitation.send";
 }
