@@ -79,4 +79,18 @@ class Route {
      * @var string
      */
     const INVITATION_SEND_ROUTE = "invitation.send";
+
+    /**
+     * Tasks of a user route.
+     * 
+     * @var string
+     */
+    const TASK_BY_USER_ROUTE = "task.user.list";
+
+    /**
+     * Tasks acceptation route.
+     * 
+     * @var string
+     */
+    const TASK_ACCEPT_ROUTE = "task.accept";
 }

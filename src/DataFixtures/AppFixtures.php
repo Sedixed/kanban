@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
         // Create some kanbans
         $nbKanban = 40;
         $maxColumnsPerKanban = 4;
-        $maxTasksPerColumn = 2;
+        $maxTasksPerColumn = 5;
         $maxUsersPerKanban = 4;
 
         $firstKanban = null;

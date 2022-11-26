@@ -21,15 +21,29 @@
 {% for col in kanban.columns %}
     <li>{{ col.name }}</li>
 
-    <ul>
-    {% for task in col.tasks %}
-        <li>
-            <p>{{ task.name }}</p>
-            <p>Description : {{ task.description }}</p>
-            <p>Date limite : {{ task.getLimitDate|date("m/d/Y") }}</p>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="tasks">
+        {% for task in col.tasks %}
+            <div class="task" data-task-id="{{ task.id }}">
+                <p>{{ task.name }}</p>
+                <p>Description : {{ task.description }}</p>
+                <p>Date limite : {{ task.getLimitDate|date("m/d/Y") }}</p>
+                {% if task.user %}
+                    {% if app.user and task.user == app.user %}
+                        <p>Votre tâche</p>
+                    {% else %}
+                        <p>Tâche attribuée à {{ task.user.username }}</p>
+                    {% endif %}
+                {% else %}
+                    {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
+                        <button data-task-id="{{ task.id }}" class="accept">Accepter</button>
+                    {% endif %}
+                    
+                {% endif %}
+                
+                
+            </div>
+        {% endfor %}
+    </div>
 {% endfor %}
 </ul>
 

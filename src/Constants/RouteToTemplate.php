@@ -20,7 +20,8 @@ class RouteToTemplate
         Route::KANBAN_ROUTE             => Template::PAGE_KANBAN_VIEW,
         Route::KANBAN_BY_USER_ROUTE     => Template::PAGE_KANBAN_BY_USER_LIST,
         Route::INVITATION_BY_USER_ROUTE => Template::PAGE_INVITATION_BY_USER_LIST,
-        Route::INVITATION_SEND_ROUTE    => Template::PAGE_KANBAN_VIEW
+        Route::INVITATION_SEND_ROUTE    => Template::PAGE_KANBAN_VIEW,
+        Route::TASK_BY_USER_ROUTE       => Template::PAGE_TASK_BY_USER_LIST
     ];
 
     /**

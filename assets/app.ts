@@ -18,3 +18,5 @@ import './bootstrap.js';
 import './js/kanban/create.js';
 
 import './js/invitation/ajax.js';
+
+import './js/task/ajax.js';
