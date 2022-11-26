@@ -41,9 +41,12 @@
 {% if app.user == kanban.owner %}
 
 {% for message in app.flashes('success') %}
-    <div class="success-flash">
-        {{ message }}
-    </div>
+    {# S'assurer que le flash est le bon (et pas celui de création de Kanban, qui est affiché à la première venue sur la page) #}
+    {% if 'Utilisateur' in message %}
+        <div class="success-flash">
+            {{ message }}
+        </div>
+    {% endif %}
 {% endfor %}
 
 {% for message in app.flashes('warning') %}

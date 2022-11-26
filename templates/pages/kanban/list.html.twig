@@ -4,27 +4,45 @@
 
 {% block body %}
 
-<div>
-<h1>Kanbans de {{ user.username }}</h1>
+<h1>Mes Kanbans</h1>
 
-<ul>
-{% for kanban in kanbans_owned %}
-    <li>
-    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}">{{ kanban.name }}</a>
-    </li>
-{% endfor %}
-</ul>
+{# Liste des kanbans de l'utilisateur #}
+<div class="kanbans">
+    {% for kanban in kanbans_owned %}
+        <div class="kanban">
+            <div class="kanban-top-info">                
+                <h2>Votre Kanban</h2>
+                <div class="arrow-wrapper">
+                    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}" class="arrow">Voir le Kanban</a>
+                </div>
+            </div>
+            <hr>
+            <h3>{{ kanban.name | u.truncate(100, '...') }}</h3>
+        </div>
+    {% endfor %}
+</div>
 
-<h1>Kanbans partagés</h1>
+<h1>Kanbans partagés avec moi</h1>
 
-<ul>
-{% for kanban in kanbans_invited %}
-    <li>
-    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}">{{ kanban.name }}</a>
-    </li>
-{% endfor %}
-</ul>
-
+{# Liste des kanbans partagés avec l'utilisateur #}
+<div class="kanbans">
+    {% for kanban in kanbans_invited %}
+        <div class="kanban">
+            <div class="kanban-top-info">                
+                <h2>
+                    {{ 
+                        "Kanban de #{kanban.owner.username}" 
+                        | u.truncate(50, '...') 
+                    }}
+                </h2>
+                <div class="arrow-wrapper">
+                    <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}" class="arrow">Voir le Kanban</a>
+                </div>
+            </div>
+            <hr>
+            <h3>{{ kanban.name | u.truncate(100, '...') }}</h3>
+        </div>
+    {% endfor %}
 </div>
 
 
