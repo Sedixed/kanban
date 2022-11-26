@@ -27,6 +27,9 @@ class Task
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Column $kanban_column = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Task
     public function setKanbanColumn(?Column $kanban_column): self
     {
         $this->kanban_column = $kanban_column;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
