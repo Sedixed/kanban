@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Constants\Template;
 use App\Repository\TaskRepository;
-use App\Repository\KanbanRepository;
 
 use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,12 +54,19 @@ class TaskController extends AbstractController
         }
 
         $params = json_decode($request->getContent(), true);
+
+        // Verifies that the task exists
         $task = $repo->findOneBy(
             ['id' => $params['taskId']]
         );
 
         if ($task == null) {
             throw new FunctionalException("Identifiant invalide", Response::HTTP_NOT_FOUND);
+        }
+        
+        // Verifies that the task is not already affected
+        if ($task->getUser() != null) {
+            throw new FunctionalException("Tâche déjà affectée", Response::HTTP_NOT_FOUND);
         }
 
         $user->addTask($task);
@@ -77,32 +83,39 @@ class TaskController extends AbstractController
         methods: ['POST']
     )]
     #[IsGranted("ROLE_USER")]
-    public function affect(Request $request, TaskRepository $repo, UserRepository $user_repo, EntityManagerInterface $manager): Response
+    public function affect(Request $request, TaskRepository $repo, UserRepository $user_repo, UserInterface $owner, EntityManagerInterface $manager): Response
     {   
         if (!$request->isXmlHttpRequest()) {
             throw new FunctionalException("La requête est invalide", Response::HTTP_BAD_REQUEST);
         }
 
         $params = json_decode($request->getContent(), true);
+
+        // Verifies that the task exists
         $task = $repo->findOneBy(
             ['id' => $params['taskId']]
         );
-
         if ($task == null) {
             throw new FunctionalException("Identifiant invalide", Response::HTTP_NOT_FOUND);
         }
 
+        // Verifies that the user exists
         $user = $user_repo->findOneBy(
             ['id' => $params['userId']]
         );
-
         if ($user == null) {
             throw new FunctionalException("Utilisateur invalide", Response::HTTP_NOT_FOUND);
         }
 
+        // Verifies that the user is affected to the kanban
         $kanban = $repo->getKanban($task)[0];
         if (!$kanban->getUsers()->contains($user)) {
             throw new FunctionalException("Utilisateur non membre du Kanban", Response::HTTP_NOT_FOUND);
+        }
+        
+        // Verifies that the owner has sent the request
+        if ($owner != $kanban->getOwner()) {
+            throw new FunctionalException("Impossible d'affecter une tâche sans être propriétaire du Kanban", Response::HTTP_NOT_FOUND);
         }
     
         $user->addTask($task);

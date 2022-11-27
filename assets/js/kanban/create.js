@@ -22,8 +22,8 @@ const addFormToCollection = (e) => {
 
 const addTagFormDeleteLink = (item) => {
   const removeBtn = document.createElement('button');
-  // TODO : utiliser TextNode à la place
-  removeBtn.innerText = 'Supprimer';
+  var text = document.createTextNode('Supprimer');
+  removeBtn.appendChild(text);
   removeBtn.setAttribute('class', 'btn btn-danger align-self-end');
   
 
