@@ -22,21 +22,26 @@ function createXhrObject() {
 }
 
 
-// Selection of every element having the 'invitation' class
+// Selection of every element having the 'task' class
 const tasks = document.querySelectorAll('.task');
 // Creation of a XML HTTP Request
 xhr = createXhrObject();
 
 
-function handleResponse(taskId) {
+function handleResponse(taskId, action) {
     if (xhr.readyState == 4) {
 		if (xhr.status == 200) {
             var btn = document.querySelector("button[data-task-id='" + taskId + "']");
             var p = document.createElement('p');
-            var text = document.createTextNode('Votre tâche');
+            console.log(xhr.responseText);
+            var text = document.createTextNode(action === 'affect' ? 
+                'Tâche attribuée à ' + JSON.parse(xhr.responseText).name :
+                'Votre tâche'
+            );
             p.appendChild(text);
             btn.after(p);
             btn.remove();
+            document.querySelector("div.affect-container[data-task-id='" + taskId + "']").remove();
 		} else {
             var error = document.querySelector('.failure-flash');
             if (error != null) {
@@ -53,22 +58,30 @@ function handleResponse(taskId) {
 }
 
 //  TODO
-function sendRequest(event) {
+function sendRequest(event, action) {
     const taskId = event.currentTarget.dataset.taskId;
-    xhr.onreadystatechange = function() { handleResponse(taskId); };
-	xhr.open("POST", "/task/accept", true);
+    xhr.onreadystatechange = function() { handleResponse(taskId, action); };
+	xhr.open("POST", "/task/" + action, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	
-    var data = {id: taskId};
+
+    var data = {taskId: taskId};
+	if (action === 'affect') {
+        var select = event.currentTarget.parentNode.querySelector('select');
+        data.userId = select.value;
+    }    
 	xhr.send(JSON.stringify(data));
 }
 
-// Adding click event listeners for every button dedicated to task acceptance
+// Adding click event listeners for every button dedicated to task acceptance/affectation
 for (var i = 0; i < tasks.length; ++i) {
     const accept = tasks[i].querySelector('.accept');
+    const affect = tasks[i].querySelector('.affect');
     // Task already affected / user not invited on the kanban
     if (accept != null) {
-        accept.addEventListener('click', sendRequest);
+        accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
+    }
+    if (affect != null) {
+        affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
     }
 }
 

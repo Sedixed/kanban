@@ -14,7 +14,7 @@
             <div class="arrow-wrapper">
                 <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': task.kanban.id}) }}" class="arrow">Voir le Kanban</a>
             </div>
-            <p>{{ task.getLimitDate|date("m/d/Y") }}</p>
+            <p>{{ task.getLimitDate | date("m/d/Y") }}</p>
         </div>
     {% endfor %}
 </div>

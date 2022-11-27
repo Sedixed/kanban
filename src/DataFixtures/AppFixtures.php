@@ -100,7 +100,6 @@ class AppFixtures extends Fixture
         
         $def_user->setUsername('username')
         ->setPlainPassword('password')
-        ->addKanban($firstKanban)
         ->setRoles(['ROLE_USER']);
         $firstKanban->setOwner($def_user)->setPrivacy(KanbanPrivacy::Public);
         $manager->persist($def_user);

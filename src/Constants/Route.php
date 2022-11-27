@@ -93,4 +93,11 @@ class Route {
      * @var string
      */
     const TASK_ACCEPT_ROUTE = "task.accept";
+
+    /**
+     * Tasks affectation route.
+     * 
+     * @var string
+     */
+    const TASK_AFFECT_ROUTE = "task.affect";
 }

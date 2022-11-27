@@ -26,21 +26,32 @@
             <div class="task" data-task-id="{{ task.id }}">
                 <p>{{ task.name }}</p>
                 <p>Description : {{ task.description }}</p>
-                <p>Date limite : {{ task.getLimitDate|date("m/d/Y") }}</p>
-                {% if task.user %}
-                    {% if app.user and task.user == app.user %}
-                        <p>Votre tâche</p>
+                <p>Date limite : {{ task.getLimitDate | date("m/d/Y") }}</p>
+                {# Nous n'affichons pas les affectations / boutons d'affectation si c'est la colonne "Terminées" #}
+                {% if kanban.columns | last != col %}
+
+                    {% if task.user %}
+                        {% if app.user and task.user == app.user %}
+                            <p>Votre tâche</p>
+                        {% else %}
+                            <p>Tâche attribuée à {{ task.user.username }}</p>
+                        {% endif %}
                     {% else %}
-                        <p>Tâche attribuée à {{ task.user.username }}</p>
-                    {% endif %}
-                {% else %}
-                    {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
-                        <button data-task-id="{{ task.id }}" class="accept">Accepter</button>
+                        {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
+                            <button data-task-id="{{ task.id }}" class="accept">Accepter</button>
+                            {% if app.user == kanban.owner %}
+                            <div class="affect-container" data-task-id="{{ task.id }}">
+                                <select name="user">
+                                {% for user in kanban.users %}
+                                    <option value="{{ user.id }}">{{ user.username }}</option>
+                                {% endfor %}
+                                </select>
+                                <button data-task-id="{{ task.id }}" class="affect">Affecter</button>
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
                     
                 {% endif %}
-                
-                
             </div>
         {% endfor %}
     </div>

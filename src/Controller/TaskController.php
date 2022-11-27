@@ -9,7 +9,7 @@ use App\Repository\KanbanRepository;
 use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Constants\Route as RouteConstants;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,10 +56,10 @@ class TaskController extends AbstractController
 
         $params = json_decode($request->getContent(), true);
         $task = $repo->findOneBy(
-            ['id' => $params['id']]
+            ['id' => $params['taskId']]
         );
+
         if ($task == null) {
-            
             throw new FunctionalException("Identifiant invalide", Response::HTTP_NOT_FOUND);
         }
 
@@ -69,5 +69,47 @@ class TaskController extends AbstractController
         $manager->flush();
 
         return new JsonResponse([]);
+    }
+
+    #[Route(
+        '/task/affect',
+        name: RouteConstants::TASK_AFFECT_ROUTE, 
+        methods: ['POST']
+    )]
+    #[IsGranted("ROLE_USER")]
+    public function affect(Request $request, TaskRepository $repo, UserRepository $user_repo, EntityManagerInterface $manager): Response
+    {   
+        if (!$request->isXmlHttpRequest()) {
+            throw new FunctionalException("La requête est invalide", Response::HTTP_BAD_REQUEST);
+        }
+
+        $params = json_decode($request->getContent(), true);
+        $task = $repo->findOneBy(
+            ['id' => $params['taskId']]
+        );
+
+        if ($task == null) {
+            throw new FunctionalException("Identifiant invalide", Response::HTTP_NOT_FOUND);
+        }
+
+        $user = $user_repo->findOneBy(
+            ['id' => $params['userId']]
+        );
+
+        if ($user == null) {
+            throw new FunctionalException("Utilisateur invalide", Response::HTTP_NOT_FOUND);
+        }
+
+        $kanban = $repo->getKanban($task)[0];
+        if (!$kanban->getUsers()->contains($user)) {
+            throw new FunctionalException("Utilisateur non membre du Kanban", Response::HTTP_NOT_FOUND);
+        }
+    
+        $user->addTask($task);
+        $manager->persist($user);
+        $manager->persist($task);
+        $manager->flush();
+        
+        return new JsonResponse(['name' => $user->getUsername()]);
     }
 }
