@@ -10,22 +10,17 @@
     {{ form_errors(form) }}
 
     {{ form_row(form.name) }}
-    <div>
-        {{ form_row(form.privacy) }}
-    </div>
+
+    {{ form_row(form.privacy) }}
 
     <h2>Colonnes du Kanban</h2>
-    <ul id="columns" class="list-group"
-        data-index="{{ form.columns|length > 0 ? form.columns|last.vars.name + 1 : 0 }}"
-        data-prototype="{{ form_widget(form.columns.vars.prototype)|e('html_attr') }}">
-        <li><input class="form-control mt-4" type="text" value="Stories" readonly></li>
-        <li id="last_col"><input type="text" value="Terminées" readonly></li>
+    <ul data-index="{{ form.columns | length > 0 ? form.columns | last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.columns.vars.prototype) | e('html_attr') }}">
+        <li><input type="text" value="Stories" readonly></li>
+        <li><input type="text" value="Terminées" readonly></li>
     </ul>
-    <button type="button" class="add-item" data-collection-holder-class="columns">Nouvelle colonne</button>
+    <button type="button" id="add-item" data-collection-holder-class="columns">Nouvelle colonne</button>
 
-    {# CSRF protection #}
-    {{ form_row(form._token) }}
-
-    {{ form_end(form) }}
+    {{ form_rest(form) }}
 
 {% endblock %}

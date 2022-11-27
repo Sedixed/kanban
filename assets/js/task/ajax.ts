@@ -68,7 +68,7 @@ function sendRequest(event: Event, action: string) : void {
 	xhr.open("POST", "/task/" + action, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
-    var data : Object = {taskId: taskId};
+    var data : object = {taskId: taskId};
     // Add the userId if required (for task affectation)
 	if (action === 'affect') {
         var select : HTMLSelectElement = target.parentNode.querySelector('select');

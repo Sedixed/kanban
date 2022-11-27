@@ -18,7 +18,7 @@ import './bootstrap.js';
 // import typescript files
 import './js/script.ts';
 
-import './js/kanban/create.js';
+import './js/kanban/create.ts';
 
 import './js/invitation/ajax.ts';
 

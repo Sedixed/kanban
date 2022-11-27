@@ -52,7 +52,7 @@ function sendRequest(event: Event, action: string) : void {
     xhr.onreadystatechange = function() { handleResponse(invId); };
 	xhr.open("POST", "/invitation/" + action, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    var data : Object = {id: invId};
+    var data : object = {id: invId};
 	xhr.send(JSON.stringify(data));
 }
 
