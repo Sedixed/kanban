@@ -6,6 +6,8 @@ form {
     margin-top: 30px;
 }
 
+/* Form containers */
+
 form .input-container, 
 form .error-message, 
 form .form-errors-list {
@@ -25,6 +27,8 @@ form .input-container {
     position: relative;
 }
 
+/* Inputs */
+
 form .input-container input {
     width: 100%;
     padding: 10px;
@@ -39,7 +43,6 @@ form .input-container label {
     color: gray;
 }
 
-
 form .input-container input:focus + label, 
 form .input-container input:not(:placeholder-shown) + label {
     left: 0;
@@ -47,6 +50,22 @@ form .input-container input:not(:placeholder-shown) + label {
     font-size: 0.7rem;
     color: rgb(73, 110, 148);
 }
+
+/* Checkboxs */
+
+form .checkbox-container {
+    
+}
+
+form .checkbox-container input[type="checkbox"] {
+    
+}
+
+form .checkbox-container input[type="checkbox"] + label {
+
+}
+
+/* Buttons */
 
 form button {
     margin-top: 5px;

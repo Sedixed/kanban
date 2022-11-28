@@ -14,8 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-
-
 class KanbanCreationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -23,27 +21,18 @@ class KanbanCreationType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control mb-4',
                     'minlength' => 3,
-                    'maxlength' => 255
+                    'maxlength' => 255,
+                    'placeholder' => ''
                 ],
                 'label' => 'Nom du Kanban',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length(['min' => 3, 'max' => 255])
                 ]
             ])
             ->add('privacy', CheckboxType::class, [
-                'attr' => [
-                    'class' => 'form-check-input'
-                ],
                 'label' => 'Kanban public',
-                'label_attr' => [
-                    'class' => 'form-check-label me-2'
-                ],
                 'required' => false,
                 'constraints' => [
                     new Assert\NotBlank()
@@ -52,7 +41,6 @@ class KanbanCreationType extends AbstractType
             ->add('columns', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'entry_options' => [
-                    'attr' => ['class' => 'form-control mt-4'],
                     'constraints' => [
                         new Assert\NotBlank()
                     ]
@@ -63,9 +51,6 @@ class KanbanCreationType extends AbstractType
                 'prototype' => true
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary mt-4',
-                ],
                 'label' => 'Créer un Kanban'
             ]);
         
