@@ -15,6 +15,11 @@ import './styles/form/stylesheet.css'
 // start the Stimulus application
 import './bootstrap.js';
 
-import './js/kanban/create.js';
+// import typescript files
+import './js/script.ts';
 
-import './js/invitation/ajax.js';
+import './js/kanban/create.ts';
+
+import './js/invitation/ajax.ts';
+
+import './js/task/ajax.ts';

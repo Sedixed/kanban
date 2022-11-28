@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class KanbanController extends AbstractController
@@ -22,6 +23,7 @@ class KanbanController extends AbstractController
         name: RouteConstants::KANBAN_CREATE_ROUTE, 
         methods: ['GET', 'POST']
     )]
+    #[IsGranted("ROLE_USER")]
     public function create(Request $request, EntityManagerInterface $manager, UserInterface $user)
         : Response 
     {
@@ -73,6 +75,7 @@ class KanbanController extends AbstractController
         name: RouteConstants::KANBAN_BY_USER_ROUTE, 
         methods: ['GET']
     )]
+    #[IsGranted("ROLE_USER")]
     public function list(KanbanRepository $repo, UserInterface $user): Response {
         $kanbans_owned = $repo->findBy(
             ['owner' => $user],

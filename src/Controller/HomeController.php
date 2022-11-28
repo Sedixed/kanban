@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Constants\KanbanPrivacy;
-use App\Constants\Route as RouteConstants;
 use App\Constants\Template;
+use App\Constants\KanbanPrivacy;
 use App\Repository\KanbanRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Constants\Route as RouteConstants;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController {
 

@@ -74,4 +74,11 @@ class Template {
      * @var string
      */
     const PAGE_INVITATION_BY_USER_LIST = self::PAGES_BASE . "invitation/list.html.twig";
+
+    /**
+     * Task by user list age template's path.
+     * 
+     * @var string
+     */
+    const PAGE_TASK_BY_USER_LIST = self::PAGES_BASE . "task/list.html.twig";
 }

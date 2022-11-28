@@ -58,4 +58,46 @@ class Route {
      * @var string
      */
     const INVITATION_BY_USER_ROUTE = "invitation.user.list";
+
+    /**
+     * Invitations acceptation route.
+     * 
+     * @var string
+     */
+    const INVITATION_ACCEPT_ROUTE = "invitation.accept";
+
+    /**
+     * Invitations rejection route.
+     * 
+     * @var string
+     */
+    const INVITATION_REJECT_ROUTE = "invitation.reject";
+
+    /**
+     * Invitations sending route.
+     * 
+     * @var string
+     */
+    const INVITATION_SEND_ROUTE = "invitation.send";
+
+    /**
+     * Tasks of a user route.
+     * 
+     * @var string
+     */
+    const TASK_BY_USER_ROUTE = "task.user.list";
+
+    /**
+     * Tasks acceptation route.
+     * 
+     * @var string
+     */
+    const TASK_ACCEPT_ROUTE = "task.accept";
+
+    /**
+     * Tasks affectation route.
+     * 
+     * @var string
+     */
+    const TASK_AFFECT_ROUTE = "task.affect";
 }

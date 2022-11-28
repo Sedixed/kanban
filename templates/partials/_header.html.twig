@@ -17,7 +17,7 @@
                         <a href="{{ url(routeConst("KANBAN_BY_USER_ROUTE"), {'user': app.user}) }}">Mes kanbans</a>
                     </li>
                     <li>
-                        <a href="#">Mes tâches</a>
+                        <a href="{{ url(routeConst("TASK_BY_USER_ROUTE"), {'user': app.user}) }}">Mes tâches</a>
                     </li>
                     <li>
                         <a href="{{ url(routeConst("INVITATION_BY_USER_ROUTE"), {'user': app.user}) }}">Invitations</a>

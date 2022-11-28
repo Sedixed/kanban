@@ -21,27 +21,90 @@
 {% for col in kanban.columns %}
     <li>{{ col.name }}</li>
 
-    <ul>
-    {% for task in col.tasks %}
-        <li>
-            <p>{{ task.name }}</p>
-            <p>Description : {{ task.description }}</p>
-            <p>Date limite : {{ task.getLimitDate|date("m/d/Y") }}</p>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="tasks">
+        {% for task in col.tasks %}
+            <div class="task" data-task-id="{{ task.id }}">
+                <p>{{ task.name }}</p>
+                <p>Description : {{ task.description }}</p>
+                <p>Date limite : {{ task.getLimitDate | date("m/d/Y") }}</p>
+                {# Nous n'affichons pas les affectations / boutons d'affectation si c'est la colonne "Terminées" #}
+                {% if kanban.columns | last != col %}
+
+                    {% if task.user %}
+                        {% if app.user and task.user == app.user %}
+                            <p>Votre tâche</p>
+                        {% else %}
+                            <p>Tâche attribuée à {{ task.user.username }}</p>
+                        {% endif %}
+                    {% else %}
+                        {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
+                            <button data-task-id="{{ task.id }}" class="accept">Accepter</button>
+                            {% if app.user == kanban.owner %}
+                                <div class="affect-container" data-task-id="{{ task.id }}">
+                                    <select name="user">
+                                    {% for user in kanban.users %}
+                                        <option value="{{ user.id }}">{{ user.username }}</option>
+                                    {% endfor %}
+                                    </select>
+                                    <button data-task-id="{{ task.id }}" class="affect">Affecter</button>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <p>Tâche non affectée</p>
+                        {% endif %}
+                    {% endif %}
+
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endfor %}
 </ul>
 
-<p>Utilisateurs invités (rien normalement avec les fixtures) :</p>
+<p>Utilisateurs invités :</p>
 {% for inv in kanban.invitations %}
-    <li>{{ inv.user.name }}</li>
+    <li>{{ inv.user.username }}</li>
 {% endfor %}
 
 {% if app.user == kanban.owner %}
-    {# Traiter les invitations (possibilité d'envoyer )#}
-{% endif %}
 
+{% for message in app.flashes('success') %}
+    {# S'assurer que le flash est le bon (et pas celui de création de Kanban, qui est affiché à la première venue sur la page) #}
+    {% if 'Utilisateur' in message %}
+        <div class="success-flash">
+            {{ message }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% for message in app.flashes('warning') %}
+    <div class="warning-flash">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="failure-flash">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<form 
+    class="" 
+    action="{{ path('invitation.send', {'id': kanban.id}) }}" 
+    method="post">
+    <div class="input-container">
+        <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            value="" placeholder="" required>
+        <label for="username">Pseudonyme</label>
+    </div>
+
+    <button type="submit">Inviter sur le Kanban</button>
+</form>
+{% endif %}
 
 </div>
 {% endblock %}

@@ -39,4 +39,16 @@ class TaskRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function getKanban(Task $task): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT k
+            FROM App\Entity\Kanban k JOIN k.columns kc WHERE :tc IN (kc)'
+        )->setParameter('tc', $task->getKanbanColumn());
+
+        return $query->getResult();
+    }
 }

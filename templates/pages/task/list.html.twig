@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tâches{% endblock %}
+
+{% block body %}
+
+<h1>Vos tâches</h1>
+<div class="tasks">
+    {% for task in tasks %}
+        <div class="task">
+            <h2>
+                {{ task.kanban.name | u.truncate(50, '...') }}
+            </h2>
+            <div class="arrow-wrapper">
+                <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': task.kanban.id}) }}" class="arrow">Voir le Kanban</a>
+            </div>
+            <p>{{ task.getLimitDate | date("m/d/Y") }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

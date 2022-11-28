@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Constants\Route as RouteConstants;
 use App\Constants\Template;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Constants\Route as RouteConstants;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -28,6 +29,7 @@ class AuthenticationController extends AbstractController
     }
 
     #[Route('/logout', name: RouteConstants::LOGOUT_ROUTE, methods: ['GET'])]
+    #[IsGranted("ROLE_USER")]
     public function logout() {
         // Nothing to do here :)
     }
