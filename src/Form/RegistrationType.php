@@ -48,9 +48,6 @@ class RegistrationType extends AbstractType
                 'invalid_message' => 'Les mots de passes doivent être identiques.'
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary mt-4',
-                ],
                 'label' => 'S\'inscrire'
             ]);
     }

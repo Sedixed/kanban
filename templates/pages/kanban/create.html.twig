@@ -9,18 +9,27 @@
     
     {{ form_errors(form) }}
 
-    {{ form_row(form.name) }}
+    <div class="input-container">
+        {{ form_widget(form.name) }}
+        {{ form_label(form.name) }}
+    </div>
 
-    {{ form_row(form.privacy) }}
+    <div class="checkbox-container">
+        {{ form_widget(form.privacy) }}
+        {{ form_label(form.privacy) }}
+    </div>
 
     <h2>Colonnes du Kanban</h2>
-    <ul data-index="{{ form.columns | length > 0 ? form.columns | last.vars.name + 1 : 0 }}"
-        data-prototype="{{ form_widget(form.columns.vars.prototype) | e('html_attr') }}">
+    <ul id="columns" class="list-group"
+        data-index="{{ form.columns|length > 0 ? form.columns|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.columns.vars.prototype)|e('html_attr') }}">
         <li><input type="text" value="Stories" readonly></li>
-        <li><input type="text" value="Terminées" readonly></li>
+        <li id="last_col"><input type="text" value="Terminées" readonly></li>
     </ul>
     <button type="button" id="add-item" data-collection-holder-class="columns">Nouvelle colonne</button>
 
     {{ form_rest(form) }}
+
+    {{ form_end(form) }}
 
 {% endblock %}
