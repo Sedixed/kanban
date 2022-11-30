@@ -1,7 +1,7 @@
 import { createXhrObject } from '../script';
 
 // Selection of every element having the 'task' class
-const tasks : NodeListOf<Element> = document.querySelectorAll('.task');
+const tasks : NodeListOf<Element> = document.querySelectorAll('.js-task');
 
 // Creation of a XML HTTP Request
 var xhr : XMLHttpRequest = createXhrObject();
@@ -33,7 +33,7 @@ function handleResponse(taskId: string, action: string) {
             p.appendChild(text);
             btn.after(p);
             btn.remove();
-            var ownerDiv : HTMLDivElement = document.querySelector("div.affect-container[data-task-id='" + taskId + "']");
+            var ownerDiv : HTMLDivElement = document.querySelector("div.js-affect-container[data-task-id='" + taskId + "']");
             if (ownerDiv != null) {
                 ownerDiv.remove();
             }
@@ -79,8 +79,8 @@ function sendRequest(event: Event, action: string) : void {
 
 // Adding click event listeners for every button dedicated to task acceptance/affectation
 for (var i : number = 0; i < tasks.length; ++i) {
-    const accept : Element = tasks[i].querySelector('.accept');
-    const affect : Element = tasks[i].querySelector('.affect');
+    const accept : Element = tasks[i].querySelector('.js-accept');
+    const affect : Element = tasks[i].querySelector('.js-affect');
     // Task already affected / user not invited on the kanban
     if (accept != null) {
         accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
