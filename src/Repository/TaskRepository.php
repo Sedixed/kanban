@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Kanban;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,7 +41,7 @@ class TaskRepository extends ServiceEntityRepository
         }
     }
 
-    public function getKanban(Task $task): array
+    public function getKanban(Task $task): Kanban
     {
         $entityManager = $this->getEntityManager();
 
@@ -49,6 +50,6 @@ class TaskRepository extends ServiceEntityRepository
             FROM App\Entity\Kanban k JOIN k.columns kc WHERE :tc IN (kc)'
         )->setParameter('tc', $task->getKanbanColumn());
 
-        return $query->getResult();
+        return $query->getResult()[0];
     }
 }

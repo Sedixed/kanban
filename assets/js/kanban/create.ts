@@ -36,7 +36,7 @@ function addInputToForm() : void {
  * @param item The parent of the button to insert.
  */
 const addInputDeleteBtn = (item: Element) => {
-  const removeBtn : HTMLButtonElement  = document.createElement('button');
+  const removeBtn : HTMLButtonElement = document.createElement('button');
   var text : Text = document.createTextNode('Supprimer');
   removeBtn.appendChild(text);
 
@@ -49,7 +49,12 @@ const addInputDeleteBtn = (item: Element) => {
 }
 
 // Adding click event listener for the column adding button
-document.querySelector('button#add-item').addEventListener("click", addInputToForm);
+const btn : HTMLButtonElement = document.querySelector('button#add-item');
+// Kanban creation page case
+if (btn != null) {
+  btn.addEventListener("click", addInputToForm);
+}
+
 
 
 

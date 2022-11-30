@@ -32,7 +32,7 @@ class TaskController extends AbstractController
         );
 
         foreach ($user_tasks as $task) {
-            $task->kanban = $repo->getKanban($task)[0];
+            $task->kanban = $repo->getKanban($task);
         }
 
         return $this->render(Template::PAGE_TASK_BY_USER_LIST, [
@@ -62,6 +62,12 @@ class TaskController extends AbstractController
 
         if ($task == null) {
             throw new FunctionalException("Identifiant invalide", Response::HTTP_NOT_FOUND);
+        }
+
+        // Verifies that the user is affected to the kanban
+        $kanban = $repo->getKanban($task);
+        if (!$kanban->getUsers()->contains($user)) {
+            throw new FunctionalException("Utilisateur non membre du Kanban", Response::HTTP_NOT_FOUND);
         }
         
         // Verifies that the task is not already affected
@@ -108,7 +114,7 @@ class TaskController extends AbstractController
         }
 
         // Verifies that the user is affected to the kanban
-        $kanban = $repo->getKanban($task)[0];
+        $kanban = $repo->getKanban($task);
         if (!$kanban->getUsers()->contains($user)) {
             throw new FunctionalException("Utilisateur non membre du Kanban", Response::HTTP_NOT_FOUND);
         }
