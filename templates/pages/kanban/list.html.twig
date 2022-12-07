@@ -7,9 +7,13 @@
 <div class="kanbans-list-container">
     <div class="kanbans-list-child">
         <h1>Mes Kanbans</h1>
+        <div class="js-sort-options sort-options">
+            <button class="js-alpha">Alphabétique croissant</button>
+            <button class="js-alpha-dec">Alphabétique décroissant</button>
+        </div>
 
         {# Liste des kanbans de l'utilisateur #}
-        <div class="kanbans-list-item">
+        <div class="kanbans-list-item js-kanbans-created">
             {% for kanban in kanbans_owned %}
                 <div class="kanban">
                     <div class="kanban-info">                
@@ -25,9 +29,13 @@
 
     <div class="kanbans-list-child">
         <h1>Kanbans partagés avec moi</h1>
+        <div class="js-sort-options sort-options">
+            <button class="js-alpha">Alphabétique croissant</button>
+            <button class="js-alpha-dec">Alphabétique décroissant</button>
+        </div>
 
         {# Liste des kanbans partagés avec l'utilisateur #}
-        <div class="kanbans-list-item">
+        <div class="kanbans-list-item js-kanbans-invited">
             {% for kanban in kanbans_invited %}
                 <div class="kanban">
                     <div class="kanban-info">                

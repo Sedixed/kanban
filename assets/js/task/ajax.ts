@@ -1,6 +1,6 @@
 import { createXhrObject } from '../script';
 
-// Selection of every element having the 'task' class
+// Selection of every element having the 'js-task' class
 const tasks : NodeListOf<Element> = document.querySelectorAll('.js-task');
 
 // Creation of a XML HTTP Request

@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Constants\KanbanPrivacy;
 use App\Entity\Column;
 use App\Entity\Kanban;
 use App\Constants\Template;
+use App\Constants\KanbanPrivacy;
 use App\Form\KanbanCreationType;
 use App\Repository\KanbanRepository;
+use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Constants\Route as RouteConstants;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,8 +89,7 @@ class KanbanController extends AbstractController
     #[IsGranted("ROLE_USER")]
     public function list(KanbanRepository $repo, UserInterface $user): Response {
         $kanbans_owned = $repo->findBy(
-            ['owner' => $user],
-            ['name' => 'ASC']
+            ['owner' => $user]
         );
 
         $kanbans_invited = $repo->getInvitedKanbans($user);

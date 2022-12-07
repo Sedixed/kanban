@@ -11,7 +11,7 @@ import './styles/app.css';
 import './styles/header/stylesheet.css'
 import './styles/home/stylesheet.css'
 import './styles/form/stylesheet.css'
-import './styles/kanban/stylesheet.css';
+import './styles/kanban/list.css';
 
 // start the Stimulus application
 import './bootstrap.js';
@@ -20,6 +20,7 @@ import './bootstrap.js';
 import './js/script.ts';
 
 import './js/kanban/create.ts';
+import './js/kanban/list.ts';
 
 import './js/invitation/ajax.ts';
 
