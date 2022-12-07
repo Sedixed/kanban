@@ -23,7 +23,7 @@
 
     <div class="tasks">
         {% for task in col.tasks %}
-            <div class="task" data-task-id="{{ task.id }}">
+            <div class="js-task" data-task-id="{{ task.id }}">
                 <p>{{ task.name }}</p>
                 <p>Description : {{ task.description }}</p>
                 <p>Date limite : {{ task.getLimitDate | date("m/d/Y") }}</p>
@@ -38,15 +38,15 @@
                         {% endif %}
                     {% else %}
                         {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
-                            <button data-task-id="{{ task.id }}" class="accept">Accepter</button>
+                            <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
                             {% if app.user == kanban.owner %}
-                                <div class="affect-container" data-task-id="{{ task.id }}">
+                                <div class="js-affect-container" data-task-id="{{ task.id }}">
                                     <select name="user">
                                     {% for user in kanban.users %}
                                         <option value="{{ user.id }}">{{ user.username }}</option>
                                     {% endfor %}
                                     </select>
-                                    <button data-task-id="{{ task.id }}" class="affect">Affecter</button>
+                                    <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
                                 </div>
                             {% endif %}
                         {% else %}
@@ -90,7 +90,6 @@
 {% endfor %}
 
 <form 
-    class="" 
     action="{{ path('invitation.send', {'id': kanban.id}) }}" 
     method="post">
     <div class="input-container">

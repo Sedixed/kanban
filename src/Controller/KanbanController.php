@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Constants\KanbanPrivacy;
 use App\Entity\Column;
 use App\Entity\Kanban;
 use App\Constants\Template;
@@ -62,8 +63,17 @@ class KanbanController extends AbstractController
         name: RouteConstants::KANBAN_ROUTE, 
         methods: ['GET', 'POST']
     )]
-    public function view(KanbanRepository $repo, int $id): Response {
+    public function view(KanbanRepository $repo, int $id, ?UserInterface $user = null): Response {
         $kanban = $repo->findOneBy(['id' => $id]);
+
+        if ($kanban->getPrivacy() == KanbanPrivacy::Private) {
+            if ($user == null) {
+                return $this->redirectToRoute(RouteConstants::LOGIN_ROUTE);
+            }
+            if (!($user == $kanban->getOwner() || $kanban->getUsers()->contains($user))) {
+                return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
+            }
+        }
 
         return $this->render(Template::PAGE_KANBAN_VIEW, [
             "kanban" => $kanban

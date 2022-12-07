@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Constants\Template;
-use App\Form\UserInvitationType;
 use App\Repository\UserRepository;
 use App\Repository\KanbanRepository;
 use App\Exception\FunctionalException;
@@ -98,6 +97,7 @@ class InvitationController extends AbstractController
     public function send(Request $request, KanbanRepository $repo, UserRepository $user_repo, int $id, EntityManagerInterface $manager): Response
     {   
         $kanban = $repo->findOneBy(['id' => $id]);
+        // traiter cas ou kanban == null
         $username = $request->get('username');
         if ($username != null) {
             $user = $user_repo->findOneBy(['username' => $username]);

@@ -1,0 +1,62 @@
+.kanbans-list-container {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
+
+.kanbans-list-child {
+    flex: 1;
+}
+
+.kanbans-list-container .kanbans-list-child:nth-child(1) {
+    border-right: solid rgb(44, 62, 80) 2px;
+}
+
+.kanbans-list-container .kanbans-list-child:nth-child(2) {
+    border-left: solid rgb(44, 62, 80) 2px;
+}
+
+.kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban {
+    margin: 10px auto 10px auto;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    background-color: white;
+    border: solid black 2px;
+    border-radius: 3px;
+    width: 90%;
+}
+
+
+.kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban .kanban-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban .arrow-wrapper {
+    width: 35px;
+    height: 35px;
+    background-color: #007185;
+    clip-path: circle();
+    transition-duration: .5s;
+}
+
+.kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban .arrow {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: rgba(0, 0, 0, 0);
+    clip-path: polygon(10% 40%, 50% 40%, 50% 20%, 90% 50%, 50% 80%, 50% 60%, 10% 60%);
+    cursor: pointer;
+    user-select: none;
+}
+
+.kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban .arrow-wrapper:hover {
+    transform: translateX(10%);
+}
+
+.kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban:hover {
+    transform: translateX(1%);
+    border: solid #c45500 2px;
+    color: #c45500;
+}

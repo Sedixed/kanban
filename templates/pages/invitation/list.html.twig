@@ -8,10 +8,10 @@
     <h1>Invitations de {{ user.username }}</h1>
     <div class="invitations">
         {% for invitation in user.invitations %}
-            <div data-invitation-id="{{ invitation.id }}" class="invitation">
+            <div data-invitation-id="{{ invitation.id }}" class="js-invitation">
                 <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ invitation.kanban.name }}</a>
-                <button data-invitation-id="{{ invitation.id }}" class="accept">Accepter</button>
-                <button data-invitation-id="{{ invitation.id }}" class="reject">Refuser</button>
+                <button data-invitation-id="{{ invitation.id }}" class="js-accept">Accepter</button>
+                <button data-invitation-id="{{ invitation.id }}" class="js-reject">Refuser</button>
             </div>
         {% endfor %}
     </div>

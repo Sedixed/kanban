@@ -1,7 +1,7 @@
 import { createXhrObject } from '../script';
 
 // Selection of every element having the 'invitation' class
-const invitations : NodeListOf<Element> = document.querySelectorAll('.invitation');
+const invitations : NodeListOf<Element> = document.querySelectorAll('.js-invitation');
 
 // Creation of a XML HTTP Request
 var xhr : XMLHttpRequest = createXhrObject();
@@ -58,8 +58,8 @@ function sendRequest(event: Event, action: string) : void {
 
 // Adding click event listeners for every button dedicated to invitation handling
 for (var i : number = 0; i < invitations.length; ++i) {
-    const accept : Element = invitations[i].querySelector('.accept');
-    const reject : Element = invitations[i].querySelector('.reject');
+    const accept : Element = invitations[i].querySelector('.js-accept');
+    const reject : Element = invitations[i].querySelector('.js-reject');
     accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
     reject.addEventListener('click', (evt) => sendRequest(evt, 'reject'));
 }
