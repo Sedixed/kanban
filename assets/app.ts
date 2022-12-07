@@ -8,10 +8,12 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
+import './styles/form/stylesheet.css'
 import './styles/header/stylesheet.css'
 import './styles/home/stylesheet.css'
 import './styles/form/stylesheet.css'
 import './styles/kanban/list.css';
+import './styles/kanban/create.css'
 
 // start the Stimulus application
 import './bootstrap.js';

@@ -10,9 +10,10 @@ form {
 
 form .input-container, 
 form .error-message, 
+form .checkbox-container, 
 form .form-errors-list {
     width: 30%;
-    margin-bottom: 30px;
+    margin: 0 auto 30px auto;
 }
 
 form .error-message, form .form-errors-list {
@@ -54,15 +55,59 @@ form .input-container input:not(:placeholder-shown) + label {
 /* Checkboxs */
 
 form .checkbox-container {
-    
+    position: relative;
 }
 
 form .checkbox-container input[type="checkbox"] {
-    
+    position: absolute;
+    opacity: 0;
 }
 
-form .checkbox-container input[type="checkbox"] + label {
+form .checkbox-container label {
+    display: grid;
+    grid-template-columns: 2em 1fr;
+    grid-template-areas: "checkbox label";
+    gap: 0.7em;
+}
 
+form .checkbox-container label::after,
+form .checkbox-container label::before {
+    content: "";
+    display: block;
+    grid-area: checkbox;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+form .checkbox-container label::before {
+    width: 100%;
+    height: 1em;
+    border: 1px solid gray;
+    border-radius: 1em;
+}
+
+form .checkbox-container label::after {
+    position: relative;
+    left: 2px;
+    top: 2px;
+    width: calc(1em - 2px);
+    height: calc(1em - 2px);
+    background-color: #555558;
+    border-radius: 50%;
+}
+
+form .checkbox-container input:checked + label::before {
+    background-color: blue;
+    border-color: rgb(22, 22, 76);
+}
+
+form .checkbox-container input:focus + label::before {
+    box-shadow: 0 0 0 0.25em #c4dbf9;
+}
+
+form .checkbox-container input:checked + label::after {
+    background-color: white;
+    transform: translate(1em);
 }
 
 /* Buttons */
