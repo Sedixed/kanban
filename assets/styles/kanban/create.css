@@ -1,0 +1,33 @@
+.create-kanban-form h2 {
+    margin: 0;
+}
+
+/* Form columns formatting */
+
+.create-kanban-form .columns {
+    width: 100%;
+    padding: 0;
+}
+
+.create-kanban-form .columns li {
+    margin: 10px 0;
+    list-style-type: none;
+}
+
+.create-kanban-form .columns .input-container {
+    margin-bottom: 0;
+}
+
+/* Buttons */
+
+.create-kanban-form .delete-column {
+    position: absolute;
+    margin: 0;
+    height: 40px;
+    border-radius: 0 3px 3px 0;
+    background-color: #c44133;
+}
+
+.create-kanban-form .add-item {
+    background-color: rgb(57, 57, 102);
+}

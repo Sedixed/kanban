@@ -34,6 +34,9 @@ class KanbanCreationType extends AbstractType
             ->add('privacy', CheckboxType::class, [
                 'label' => 'Kanban public',
                 'required' => false,
+                'attr' => [
+                    'class' => 'js-privacy-checkbox'
+                ],
                 'constraints' => [
                     new Assert\NotBlank()
                 ]

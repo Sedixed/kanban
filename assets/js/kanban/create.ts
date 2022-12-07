@@ -4,13 +4,17 @@
  * 
  */
 function addInputToForm() : void {
-  const collectionHolder : HTMLUListElement = document.querySelector('form ul') as HTMLUListElement;
-  const lastChild : HTMLLIElement = collectionHolder.querySelector('li:last-child');
+  const collectionHolder : HTMLUListElement = document.querySelector('form .columns') as HTMLUListElement;
+  const lastChild : HTMLLIElement = collectionHolder.querySelector('.js-last-column');
   const item : HTMLLIElement = document.createElement('li');
+  const inputContainer: HTMLDivElement = document.createElement("div");
+  inputContainer.classList.add("input-container");
+  inputContainer.classList.add("added-column");
+  item.appendChild(inputContainer);
 
   // Copies the HTML content of the ul element, replacing __name__
   // by the dataset index field
-  item.innerHTML = collectionHolder
+  inputContainer.innerHTML = collectionHolder
     .dataset
     .prototype
     .replace(
@@ -19,7 +23,7 @@ function addInputToForm() : void {
     );
     
   // Retrieves the input child of the li element created
-  var input : HTMLInputElement = item.childNodes[0] as HTMLInputElement;
+  var input : HTMLInputElement = item.querySelector("input") as HTMLInputElement;
   
   input.setAttribute('placeholder', 'Nouvelle colonne');
   
@@ -37,10 +41,11 @@ function addInputToForm() : void {
  */
 const addInputDeleteBtn = (item: Element) => {
   const removeBtn : HTMLButtonElement  = document.createElement('button');
+  removeBtn.classList.add("delete-column");
   var text : Text = document.createTextNode('Supprimer');
   removeBtn.appendChild(text);
 
-  item.append(removeBtn);
+  item.querySelector(".input-container").append(removeBtn);
 
   removeBtn.addEventListener('click', (e : MouseEvent) => {
     e.preventDefault();
@@ -49,7 +54,7 @@ const addInputDeleteBtn = (item: Element) => {
 }
 
 // Adding click event listener for the column adding button
-document.querySelector('button#add-item').addEventListener("click", addInputToForm);
+document.querySelector('.js-add-item').addEventListener("click", addInputToForm);
 
 
 
