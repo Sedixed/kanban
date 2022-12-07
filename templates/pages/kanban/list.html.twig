@@ -17,7 +17,7 @@
             {% for kanban in kanbans_owned %}
                 <div class="kanban">
                     <div class="kanban-info">                
-                        <h2>{{ kanban.name }}</h2>
+                        <h2 class="js-alpha-key js-alpha-dec-key">{{ kanban.name }}</h2>
                         <div class="arrow-wrapper">
                             <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': kanban.id}) }}" class="arrow">Voir le Kanban</a>
                         </div>
@@ -39,7 +39,7 @@
             {% for kanban in kanbans_invited %}
                 <div class="kanban">
                     <div class="kanban-info">                
-                        <h2>
+                        <h2 class="js-alpha-key js-alpha-dec-key">
                             {{ 
                                 kanban.name
                                 | u.truncate(50, '...') 

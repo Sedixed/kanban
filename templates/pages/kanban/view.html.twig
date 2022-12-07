@@ -26,7 +26,10 @@
             <div class="js-task" data-task-id="{{ task.id }}">
                 <p>{{ task.name }}</p>
                 <p>Description : {{ task.description }}</p>
-                <p>Date limite : {{ task.getLimitDate | date("m/d/Y") }}</p>
+                {% if task.limitDate is not null %}
+                    <p>Date limite : {{ task.limitDate | date("d/m/Y") }}</p>
+                {% endif %}
+                
                 {# Nous n'affichons pas les affectations / boutons d'affectation si c'est la colonne "Terminées" #}
                 {% if kanban.columns | last != col %}
 

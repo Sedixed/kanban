@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
                         ->setDescription($faker->text(250))
                         ->setKanbanColumn($column);
                     if (mt_rand(0, 1)) {
-                        $task->setLimitDate((new DateTime())->modify('+2 day'));
+                        $task->setLimitDate((new DateTime())->modify('+' . mt_rand(1, 7) . ' day'));
                     }
 
                     $manager->persist($task);

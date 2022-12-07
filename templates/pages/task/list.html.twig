@@ -4,19 +4,32 @@
 
 {% block body %}
 
-<h1>Vos tâches</h1>
-<div class="tasks">
-    {% for task in tasks %}
-        <div class="task">
-            <h2>
-                {{ task.kanban.name | u.truncate(50, '...') }}
-            </h2>
-            <div class="arrow-wrapper">
-                <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': task.kanban.id}) }}" class="arrow">Voir le Kanban</a>
-            </div>
-            <p>{{ task.getLimitDate | date("m/d/Y") }}</p>
+<div class="tasks-list-container">
+    <div class="tasks-list-child">
+        <h1>Vos tâches</h1>
+        <div class="js-sort-options sort-options">
+            <button class="js-alpha">Alphabétique croissant</button>
+            <button class="js-alpha-dec">Alphabétique décroissant</button>
+            <button class="js-date">Date limite croissant</button>
+            <button class="js-date-dec">Date limite décroissant</button>
         </div>
-    {% endfor %}
+
+        <div class="tasks">
+            {% for task in tasks %}
+                <div class="task">
+                    <h2 class="js-alpha-key js-alpha-dec-key">
+                        {{ task.name | u.truncate(50, '...') }} | {{ task.kanban.name | u.truncate(50, '...') }}
+                    </h2>
+                    <div class="arrow-wrapper">
+                        <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': task.kanban.id}) }}" class="arrow">Voir le Kanban</a>
+                    </div>
+                    {% if task.limitDate is not null %}
+                        <p>Date limite : <span class="js-date-key js-date-dec-key">{{ task.limitDate | date("d/m/Y") }}</span></p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}

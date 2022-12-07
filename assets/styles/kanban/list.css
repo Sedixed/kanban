@@ -56,7 +56,6 @@
 }
 
 .kanbans-list-container .kanbans-list-child .kanbans-list-item .kanban:hover {
-    transform: translateX(1%);
     border: solid #c45500 2px;
     color: #c45500;
 }
