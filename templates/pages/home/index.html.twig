@@ -3,6 +3,12 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="success-flash">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1>Kanbans publics</h1>
     {# Liste des kanbans #}
     <div class="kanbans">
