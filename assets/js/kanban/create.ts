@@ -54,4 +54,7 @@ const addInputDeleteBtn = (item: Element) => {
 }
 
 // Adding click event listener for the column adding button
-document.querySelector('.js-add-item').addEventListener("click", addInputToForm);
+const btn = document.querySelector('.js-add-item');
+if (btn != null) {
+  btn.addEventListener("click", addInputToForm);
+}

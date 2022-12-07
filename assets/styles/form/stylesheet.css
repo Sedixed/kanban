@@ -97,7 +97,7 @@ form .checkbox-container label::after {
 }
 
 form .checkbox-container input:checked + label::before {
-    background-color: blue;
+    background-color: rgb(57, 57, 102);
     border-color: rgb(22, 22, 76);
 }
 
