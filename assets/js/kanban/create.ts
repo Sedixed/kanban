@@ -9,6 +9,7 @@ function addInputToForm() : void {
   const item : HTMLLIElement = document.createElement('li');
   const inputContainer: HTMLDivElement = document.createElement("div");
   inputContainer.classList.add("input-container");
+  inputContainer.classList.add("js-input-container");
   inputContainer.classList.add("added-column");
   item.appendChild(inputContainer);
 
@@ -45,7 +46,7 @@ const addInputDeleteBtn = (item: Element) => {
   var text : Text = document.createTextNode('Supprimer');
   removeBtn.appendChild(text);
 
-  item.querySelector(".input-container").append(removeBtn);
+  item.querySelector(".js-input-container").append(removeBtn);
 
   removeBtn.addEventListener('click', (e : MouseEvent) => {
     e.preventDefault();
