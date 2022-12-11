@@ -31,3 +31,11 @@
 .create-kanban-form .add-item {
     background-color: rgb(57, 57, 102);
 }
+
+.create-kanban-form .delete-column:hover {
+    background-color: #f74430;
+}
+
+.create-kanban-form .add-item:hover {
+    background-color: rgb(25, 25, 85);
+}

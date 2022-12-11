@@ -30,3 +30,25 @@ html body {
     border: 1px solid rgb(121, 71, 25);
     background-color: rgba(241, 197, 2, 0.8);
 }
+
+/* Sorting buttons */
+
+.sort-options {
+    text-align: center;
+}
+
+.sort-options button {
+    background-color: rgb(57, 57, 102);
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    color: white;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+.sort-options button:hover {
+    background-color: rgb(11, 11, 70);
+}
