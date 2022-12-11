@@ -4,14 +4,15 @@
 
 {% block body %}
 
-<div>
-    <h1>Invitations de {{ user.username }}</h1>
+<div class="inv-container">
+    <h1>Vos invitations</h1>
     <div class="invitations">
         {% for invitation in user.invitations %}
-            <div data-invitation-id="{{ invitation.id }}" class="js-invitation">
-                <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ invitation.kanban.name }}</a>
-                <button data-invitation-id="{{ invitation.id }}" class="js-accept">Accepter</button>
+            <div data-invitation-id="{{ invitation.id }}" class="invitation js-invitation">
+                <p>{{ invitation.kanban.name }}</p>
+                {# <a href="{{ url(routeConst("KANBAN_ROUTE"), {'id': invitation.kanban.id}) }}">{{ invitation.kanban.name }}</a> #}
                 <button data-invitation-id="{{ invitation.id }}" class="js-reject">Refuser</button>
+                <button data-invitation-id="{{ invitation.id }}" class="js-accept">Accepter</button>
             </div>
         {% endfor %}
     </div>

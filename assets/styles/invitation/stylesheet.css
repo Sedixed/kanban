@@ -1,0 +1,58 @@
+.inv-container {
+    width: 100%;
+    text-align: center;
+}
+
+.inv-container .invitations {
+    width: 60%;
+    margin:auto;
+}
+
+.inv-container .invitations .invitation {
+    text-align: left;
+    margin: 10px;
+    padding: 15px 15px;
+    box-sizing: border-box;
+    background-color: white;
+    border: solid black 2px;
+    border-radius: 3px;
+}
+
+.inv-container .invitations .invitation p {
+    margin: 0;
+}
+
+.inv-container .invitations .invitation button {
+    width: 15%;
+    float: right;
+    border: none;
+    /* -30px - 2*2px (border) */
+    margin-top: calc(-30px - 2 * 2px);
+    padding-bottom: 15px;
+    padding-top: 14px;
+    color: white;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+.inv-container .invitations .invitation button:last-of-type {
+    background-color: #18bc9c;
+    border: solid #18bc9c 2px;
+}
+
+.inv-container .invitations .invitation button:last-of-type:hover {
+    background-color: #14a085;
+    border: solid #14a085 2px;
+}
+
+.inv-container .invitations .invitation button:first-of-type {
+    background-color: #c44133;
+    border: solid #c44133 2px;
+    margin-right: -15px;   
+}
+
+.inv-container .invitations .invitation button:first-of-type:hover {
+    background-color: #973429;
+    border: solid #973429 2px;
+}
+
