@@ -5,69 +5,47 @@
 {% endblock %}
 
 {% block body %}
-<div>
-<p>Nom du Kanban : {{ kanban.name }}</p>
-<p>Propriétaire : {{ kanban.owner.username }}</p>
 
-<p>Utilisateurs :</p>
-<ul>
-{% for user in kanban.users %}
-    <li>{{ user.username }}</li>
-{% endfor %}
-</ul>
+<h2 class="kanban-title">{{ kanban.name }}</h2>
 
-<p>Colonnes :</p>
-<ul>
-{% for col in kanban.columns %}
-    <li>{{ col.name }}</li>
-
-    <div class="tasks">
-        {% for task in col.tasks %}
-            <div class="js-task" data-task-id="{{ task.id }}">
-                <p>{{ task.name }}</p>
-                <p>Description : {{ task.description }}</p>
-                {% if task.limitDate is not null %}
-                    <p>Date limite : {{ task.limitDate | date("d/m/Y") }}</p>
-                {% endif %}
-                
-                {# Nous n'affichons pas les affectations / boutons d'affectation si c'est la colonne "Terminées" #}
-                {% if kanban.columns | last != col %}
-
-                    {% if task.user %}
-                        {% if app.user and task.user == app.user %}
-                            <p>Votre tâche</p>
+<div class="kanban-container">
+    <table class="kanban">
+        <thead>
+            {% for col in kanban.columns %}
+                <th>
+                    <div>{{ col.name }}</div>
+                </th>
+            {% endfor %}
+        </thead>
+        <tbody>
+            {# Traverse the table horizontally and add the tasks #}
+            {% for i in 0..maxTasks %}
+                <tr>
+                    {% for j in 0..(kanban.columns | length - 1) %}
+                        {% if kanban.columns[j].tasks[i] is defined %}
+                            <td>
+                                <div>{{ kanban.columns[j].tasks[i].name }}</div>
+                            </td>
+                        {% elseif i == 0 or kanban.columns[j].tasks[i - 1] is defined %}
+                            <td class="add-task">
+                                <div>Ajouter une tâche</div>
+                            </td>
                         {% else %}
-                            <p>Tâche attribuée à {{ task.user.username }}</p>
+                            <td class="invisible"></td>
                         {% endif %}
-                    {% else %}
-                        {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
-                            <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
-                            {% if app.user == kanban.owner %}
-                                <div class="js-affect-container" data-task-id="{{ task.id }}">
-                                    <select name="user">
-                                    {% for user in kanban.users %}
-                                        <option value="{{ user.id }}">{{ user.username }}</option>
-                                    {% endfor %}
-                                    </select>
-                                    <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
-                                </div>
-                            {% endif %}
-                        {% else %}
-                            <p>Tâche non affectée</p>
-                        {% endif %}
-                    {% endif %}
-
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-{% endfor %}
-</ul>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <p>Utilisateurs invités :</p>
-{% for inv in kanban.invitations %}
-    <li>{{ inv.user.username }}</li>
-{% endfor %}
+<ul>
+    {% for inv in kanban.invitations %}
+        <li>{{ inv.user.username }}</li>
+    {% endfor %}
+</ul>
 
 {% if app.user == kanban.owner %}
 
@@ -108,5 +86,4 @@
 </form>
 {% endif %}
 
-</div>
 {% endblock %}

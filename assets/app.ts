@@ -1,19 +1,18 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
 import './styles/form/stylesheet.css'
+
 import './styles/header/stylesheet.css'
+
 import './styles/home/stylesheet.css'
+
 import './styles/kanban/list.css';
 import './styles/kanban/create.css'
+import './styles/kanban/view.css'
+
 import './styles/task/list.css';
+
 import './styles/invitation/stylesheet.css';
 
 // start the Stimulus application

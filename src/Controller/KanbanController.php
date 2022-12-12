@@ -76,8 +76,19 @@ class KanbanController extends AbstractController
             }
         }
 
+        // Calculate the number of tasks in the column with the maximum of tasks
+        // (Used in kanban table rendering)
+        $maxTasks = 0;
+        foreach ($kanban->getColumns() as $column) {
+            $nbTasks = count($column->getTasks());
+            if ($nbTasks > $maxTasks) {
+                $maxTasks = $nbTasks;
+            }
+        }
+
         return $this->render(Template::PAGE_KANBAN_VIEW, [
-            "kanban" => $kanban
+            "kanban" => $kanban,
+            "maxTasks" => $maxTasks
         ]);
     }
 
