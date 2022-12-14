@@ -100,4 +100,11 @@ class Route {
      * @var string
      */
     const TASK_AFFECT_ROUTE = "task.affect";
+
+    /**
+     * Tasks creation route.
+     * 
+     * @var string
+     */
+    const TASK_CREATE_ROUTE = "task.create";
 }

@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Task;
+use App\Entity\Column;
 use App\Constants\Template;
+use App\Service\KanbanService;
 use App\Repository\TaskRepository;
 
+use App\Repository\UserRepository;
+use App\Repository\ColumnRepository;
 use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Constants\Route as RouteConstants;
-use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -131,4 +135,47 @@ class TaskController extends AbstractController
         
         return new JsonResponse(['name' => $user->getUsername()]);
     }
+
+    #[Route(
+        '/task/create_under/{id}',
+        name: RouteConstants::TASK_CREATE_ROUTE, 
+        methods: ['POST']
+    )]
+    #[IsGranted("ROLE_USER")]
+    public function create(Request $request, EntityManagerInterface $manager, KanbanService $service, ColumnRepository $repo, int $id) : Response 
+    {
+
+        $task = new Task();
+        $form = $this->createForm(TaskCreationType::class, $task);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+
+            $column = $repo->findOneBy([
+                'id' => $id
+            ]);
+            
+            if ($column == null) {
+                $this->addFlash('error', 'Erreur lors de la création : colonne introuvable');
+                return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
+            }
+
+            $task->setKanbanColumn($column);
+
+            $this->addFlash('success', 'Tâche ajoutée avec succès !');
+
+            $manager->persist($task);
+            $manager->flush();
+
+            $kanban = $column->getKanban();
+            $maxTasks = $service->getMaxTasksAmount($kanban);
+
+            return $this->render(Template::PAGE_KANBAN_VIEW, [
+                "kanban" => $kanban,
+                "maxTasks" => $maxTasks
+            ]);
+        }
+    }
+
 }
