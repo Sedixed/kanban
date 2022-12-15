@@ -5,13 +5,12 @@ namespace App\Controller;
 use App\Entity\Column;
 use App\Entity\Kanban;
 use App\Constants\Template;
+use App\Service\KanbanService;
 use App\Constants\KanbanPrivacy;
 use App\Form\KanbanCreationType;
 use App\Repository\KanbanRepository;
-use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Constants\Route as RouteConstants;
-use App\Service\KanbanService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,13 +64,13 @@ class KanbanController extends AbstractController
         name: RouteConstants::KANBAN_ROUTE, 
         methods: ['GET', 'POST']
     )]
-    public function view(KanbanRepository $repo, int $id, KanbanService $service, ?UserInterface $user = null): Response {
+    public function view(Request $request, KanbanRepository $repo, int $id, KanbanService $service, ?UserInterface $user = null): Response {
         $kanban = $repo->findOneBy(['id' => $id]);
         if ($kanban == null) {
             $this->addFlash('error', 'Kanban introuvable');
             return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
         }
-
+        
         if ($kanban->getPrivacy() == KanbanPrivacy::Private) {
             if ($user == null) {
                 return $this->redirectToRoute(RouteConstants::LOGIN_ROUTE);
@@ -82,7 +81,7 @@ class KanbanController extends AbstractController
         }
 
         $maxTasks = $service->getMaxTasksAmount($kanban);
-
+        
         return $this->render(Template::PAGE_KANBAN_VIEW, [
             "kanban" => $kanban,
             "maxTasks" => $maxTasks

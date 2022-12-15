@@ -28,7 +28,11 @@
                             </td>
                         {% elseif i == 0 or kanban.columns[j].tasks[i - 1] is defined %}
                             <td class="add-task">
-                                <div>Ajouter une tâche</div>
+                                <div>
+                                    <button data-col-id="{{ kanban.columns[j].id }}">
+                                        Ajouter une tâche
+                                    </button>
+                                </div>
                             </td>
                         {% else %}
                             <td class="invisible"></td>

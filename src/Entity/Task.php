@@ -64,7 +64,7 @@ class Task
         return $this->limit_date;
     }
 
-    public function setLimitDate(\DateTimeInterface $limit_date): self
+    public function setLimitDate(?\DateTimeInterface $limit_date): self
     {
         $this->limit_date = $limit_date;
 

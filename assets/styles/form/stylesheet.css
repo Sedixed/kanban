@@ -11,7 +11,8 @@ form {
 form .input-container, 
 form .error-message, 
 form .checkbox-container, 
-form .form-errors-list {
+form .form-errors-list,
+form .textarea-container {
     width: 30%;
     margin: 0 auto 30px auto;
 }
@@ -33,6 +34,7 @@ form .input-container {
 form .input-container input {
     width: 100%;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 form .input-container label {
@@ -134,4 +136,15 @@ form .form-errors-list ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
+}
+
+/* Text areas */
+
+form .textarea-container textarea {
+    resize: vertical;
+    min-height: 100px;
+    max-height: 50vh;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Lato,  Arial, sans-serif;
 }

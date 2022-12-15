@@ -53,3 +53,58 @@ html body {
 .sort-options button:hover {
     background-color: rgb(11, 11, 70);
 }
+
+.popup {
+    position: absolute;
+    background-color: white;
+    width: 30%;
+    top: 50%;
+    left: 50%;
+    border: solid black 2px;
+    border-radius: 3px;
+    transform: translate(-50%, -50%);
+}
+
+.popup-relative {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 30px 0;
+}
+
+.popup-exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: solid #c44133 1px;
+    border-radius: 3px;
+    background-color: #c44133;
+    color: white;
+    font-size: 1.2em;
+    padding: 8px;
+    margin: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+
+}
+
+.popup-exit:hover {
+    background-color: #973429;
+    border: solid #973429 1px;
+}
+
+.add-task button {
+    padding: 8px;
+    border: solid rgb(57, 57, 102) 1px;
+    border-radius: 3px;
+    background-color: rgb(57, 57, 102);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.add-task button:hover {
+    border: solid rgb(11, 11, 70) 1px;
+    background-color: rgb(11, 11, 70);
+}
+

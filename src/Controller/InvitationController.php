@@ -131,8 +131,6 @@ class InvitationController extends AbstractController
             $this->addFlash('error', 'L\'utilisateur transmis via le formulaire est incorrect.');
         }
     
-        
-
         return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
             "kanban" => $kanban,
             "id" => $kanban->getId()

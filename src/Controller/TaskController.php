@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Task;
-use App\Entity\Column;
 use App\Constants\Template;
+
 use App\Service\KanbanService;
 use App\Repository\TaskRepository;
-
 use App\Repository\UserRepository;
 use App\Repository\ColumnRepository;
 use App\Exception\FunctionalException;
@@ -144,38 +144,69 @@ class TaskController extends AbstractController
     #[IsGranted("ROLE_USER")]
     public function create(Request $request, EntityManagerInterface $manager, KanbanService $service, ColumnRepository $repo, int $id) : Response 
     {
+        $column = $repo->findOneBy([
+            'id' => $id
+        ]);
 
-        $task = new Task();
-        $form = $this->createForm(TaskCreationType::class, $task);
+        if ($column == null) {
+            $this->addFlash('error', 'Erreur lors de la création : colonne introuvable');
+            return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
+        }
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $task = $form->getData();
-
-            $column = $repo->findOneBy([
-                'id' => $id
-            ]);
-            
-            if ($column == null) {
-                $this->addFlash('error', 'Erreur lors de la création : colonne introuvable');
-                return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
-            }
-
-            $task->setKanbanColumn($column);
-
-            $this->addFlash('success', 'Tâche ajoutée avec succès !');
-
-            $manager->persist($task);
-            $manager->flush();
-
-            $kanban = $column->getKanban();
-            $maxTasks = $service->getMaxTasksAmount($kanban);
-
-            return $this->render(Template::PAGE_KANBAN_VIEW, [
-                "kanban" => $kanban,
-                "maxTasks" => $maxTasks
+        $name = $request->get('name');
+        if ($name == null || strlen($name) > 255 || strlen($name) < 3) {
+            $this->addFlash('error', 'Erreur lors de la création : nom invalide');
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                'id' => $column->getKanban()->getId()
             ]);
         }
+
+        $desc = $request->get('description');
+        if ($desc == null || strlen($desc) > 500 || strlen($desc) < 3) {
+            $this->addFlash('error', 'Erreur lors de la création : description invalide');
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                'id' => $column->getKanban()->getId()
+            ]);
+        }
+
+        $dateStr = $request->get('limitDate');
+        if ($dateStr === null) {
+            $this->addFlash('error', 'Erreur lors de la création : date invalide');
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                'id' => $column->getKanban()->getId()
+            ]);
+        }
+
+        $date = null;
+        
+        if ($dateStr != "") {
+            $date = new DateTime($dateStr);
+        }
+
+
+        $task = new Task();
+        $task->setName($name)
+            ->setDescription($desc)
+            ->setLimitDate($date)
+            ->setKanbanColumn($column);
+
+        $this->addFlash('success', 'Tâche ajoutée avec succès !');
+
+        $manager->persist($task);
+        $manager->flush();
+
+        //$kanban = $column->getKanban();
+        //$maxTasks = $service->getMaxTasksAmount($kanban);
+        
+        return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+            'id' => $column->getKanban()->getId()
+        ]);
+        /*
+        return $this->render(Template::PAGE_KANBAN_VIEW, [
+            "kanban" => $kanban,
+            "maxTasks" => $maxTasks
+        ]);
+        */
     }
 
 }

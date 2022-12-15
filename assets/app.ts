@@ -20,6 +20,7 @@ import './bootstrap.js';
 
 // import typescript files
 import './js/sortHandler.ts';
+import './js/popupHandler.ts';
 import './js/script.ts';
 
 import './js/kanban/create.ts';
@@ -29,3 +30,4 @@ import './js/invitation/ajax.ts';
 
 import './js/task/ajax.ts';
 import './js/task/list.ts';
+import './js/task/add.ts';
