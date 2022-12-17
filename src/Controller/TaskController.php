@@ -178,11 +178,9 @@ class TaskController extends AbstractController
         }
 
         $date = null;
-        
         if ($dateStr != "") {
             $date = new DateTime($dateStr);
         }
-
 
         $task = new Task();
         $task->setName($name)
@@ -194,19 +192,10 @@ class TaskController extends AbstractController
 
         $manager->persist($task);
         $manager->flush();
-
-        //$kanban = $column->getKanban();
-        //$maxTasks = $service->getMaxTasksAmount($kanban);
         
         return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
             'id' => $column->getKanban()->getId()
         ]);
-        /*
-        return $this->render(Template::PAGE_KANBAN_VIEW, [
-            "kanban" => $kanban,
-            "maxTasks" => $maxTasks
-        ]);
-        */
     }
 
 }
