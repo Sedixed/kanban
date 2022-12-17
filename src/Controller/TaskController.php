@@ -13,6 +13,9 @@ use App\Repository\ColumnRepository;
 use App\Exception\FunctionalException;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Constants\Route as RouteConstants;
+use App\Entity\Column;
+use App\Entity\User;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,21 +73,28 @@ class TaskController extends AbstractController
 
         // Verifies that the user is affected to the kanban
         $kanban = $repo->getKanban($task);
-        if (!$kanban->getUsers()->contains($user)) {
+        if ($kanban->getOwner() != $user && !$kanban->getUsers()->contains($user)) {
             throw new FunctionalException("Utilisateur non membre du Kanban", Response::HTTP_NOT_FOUND);
         }
         
         // Verifies that the task is not already affected
         if ($task->getUser() != null) {
-            throw new FunctionalException("Tâche déjà affectée", Response::HTTP_NOT_FOUND);
+            throw new FunctionalException(
+                iconv("ISO-8859-1", "UTF-8", "Tache deja affectee"), 
+                Response::HTTP_NOT_FOUND
+            );
         }
 
-        $user->addTask($task);
+        if ($user instanceof User) {
+            $user->addTask($task);
+        }
         $manager->persist($user);
         $manager->persist($task);
         $manager->flush();
 
-        return new JsonResponse([]);
+        return new JsonResponse([
+            'name' => ($user instanceof User) ? $user->getUsername() : null
+        ]);
     }
 
     #[Route(
@@ -195,6 +205,41 @@ class TaskController extends AbstractController
         
         return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
             'id' => $column->getKanban()->getId()
+        ]);
+    }
+
+    #[Route(
+        '/task/move/{id}/{to}',
+        name: RouteConstants::TASK_MOVE_ROUTE, 
+        methods: ['GET']
+    )]
+    #[IsGranted("ROLE_USER")]
+    public function move(int $id, int $to, TaskRepository $taskRepository, EntityManagerInterface $manager, ColumnRepository $columnRepository): Response {
+        $task = $taskRepository->findOneBy(compact("id"));
+        if ($task === null) {
+            $this->addFlash("error", "La tâche est invalide");
+            return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
+        }
+
+        $kanban = $task->getKanbanColumn()->getKanban();
+        $columnTo = $columnRepository->findOneBy(["id" => $to]);
+        if (
+            $columnTo === null 
+            || $columnTo->getKanban()->getId() != $kanban->getId()
+        ) {
+            $this->addFlash("error", "La colonne d'arrivée est invalide");
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                "id" => $kanban->getId()
+            ]);
+        }
+
+        $task->setKanbanColumn($columnTo);
+        
+        $manager->persist($task);
+        $manager->flush();
+
+        return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+            "id" => $kanban->getId()
         ]);
     }
 

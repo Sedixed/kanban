@@ -1,7 +1,4 @@
-import { createXhrObject } from '../script';
-
-// Selection of every element having the 'js-task' class
-const tasks : NodeListOf<Element> = document.querySelectorAll('.js-task');
+import { createXhrObject } from '../ajax';
 
 // Creation of a XML HTTP Request
 var xhr : XMLHttpRequest = createXhrObject();
@@ -24,20 +21,40 @@ var xhr : XMLHttpRequest = createXhrObject();
 function handleResponse(taskId: string, action: string) {
     if (xhr.readyState == 4) {
 		if (xhr.status == 200) {
-            var btn : HTMLButtonElement = document.querySelector("button[data-task-id='" + taskId + "']");
-            var p : HTMLParagraphElement = document.createElement('p');
-            var text : Text = document.createTextNode(action === 'affect' ? 
-                'Tâche attribuée à ' + JSON.parse(xhr.responseText).name :
-                'Votre tâche'
-            );
-            p.appendChild(text);
-            btn.after(p);
-            btn.remove();
-            var ownerDiv : HTMLDivElement = document.querySelector("div.js-affect-container[data-task-id='" + taskId + "']");
-            if (ownerDiv != null) {
-                ownerDiv.remove();
-            }
+            // Mettre le titre
+            // Changer le data username de la task
+            // Supprimer le bouton original et cloné
+            const name = JSON.parse(xhr.responseText).name;
+
+            const popup = document.querySelector(".task-popup[data-task-id='" + taskId + "']");
+            const popupTitle = popup.querySelector("h2");
+            const affectTitle = document.createElement("h3");
+            affectTitle.textContent = "Tâche affectée à : " + name;
+            popupTitle.after(affectTitle);
+
+            const task: HTMLDivElement = document.querySelector(".js-task[data-task-id='" + taskId + "']");
+            task.dataset.taskUser = name;
+
+            document.querySelectorAll(
+                ".js-task-affect[data-task-id='" + taskId + "']"
+            ).forEach(button => {
+                button.remove();
+            })
+            // var btn : HTMLButtonElement = document.querySelector();
+            // var p : HTMLParagraphElement = document.createElement('p');
+            // var text : Text = document.createTextNode(action === 'affect' ? 
+            //     'Tâche attribuée à ' + JSON.parse(xhr.responseText).name :
+            //     'Votre tâche'
+            // );
+            // p.appendChild(text);
+            // btn.after(p);
+            // btn.remove();
+            // var ownerDiv : HTMLDivElement = document.querySelector(".task-popup .js-task-affect[data-task-id='" + taskId + "']");
+            // if (ownerDiv != null) {
+            //     ownerDiv.remove();
+            // }
 		} else {
+            // TODO : à refaire
             var error : Element = document.querySelector('.failure-flash');
             if (error != null) {
                 error.remove();
@@ -46,7 +63,7 @@ function handleResponse(taskId: string, action: string) {
             div.setAttribute('class', 'failure-flash');
             var text : Text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
             div.appendChild(text);
-            document.querySelector("div[data-task-id='" + taskId + "']").after(div);
+            document.querySelector(".js-task-affect[data-task-id='" + taskId + "']").after(div);
 		}
 	}
 }
@@ -77,10 +94,9 @@ function sendRequest(event: Event, action: string) : void {
 	xhr.send(JSON.stringify(data));
 }
 
-// Adding click event listeners for every button dedicated to task acceptance/affectation
-for (var i : number = 0; i < tasks.length; ++i) {
-    const accept : Element = tasks[i].querySelector('.js-accept');
-    const affect : Element = tasks[i].querySelector('.js-affect');
+export function bindAffects(element: Element) {
+    const accept : Element = element.querySelector('.js-accept');
+    const affect : Element = element.querySelector('.js-affect');
     // Task already affected / user not invited on the kanban
     if (accept != null) {
         accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
@@ -90,5 +106,6 @@ for (var i : number = 0; i < tasks.length; ++i) {
         affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
     }
 }
+
 
 

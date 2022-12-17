@@ -13,37 +13,107 @@ table.kanban {
     table-layout: fixed;
 }
 
-table.kanban caption {
-    width: 97vw;
-    margin-bottom: 20px;
-    font-size: 1.5em;
+table.kanban th, table.kanban td {
+    padding: 0 5px;
+}
+
+table.kanban th, table.kanban td:not(.td-invisible) {
+    background-color: rgb(204, 205, 207);
 }
 
 table.kanban th {
-    border: 1px solid black;
+    border: 1px solid rgb(204, 205, 207);
     border-bottom: none;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
 table.kanban td {
-    border-right: 1px solid black;
-    border-left: 1px solid black;
+    border-right: 1px solid rgb(204, 205, 207);
+    border-left: 1px solid rgb(204, 205, 207);
 }
 
-table.kanban th div, table.kanban td div {
+table.kanban th > div, table.kanban td > div {
     width: 200px;
     margin: 10px 0;
     padding: 5px;
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+table.kanban td:not(.add-task) > div {
+    background-color: white;
+    box-shadow: 0px 2px 15px -5px #000000;
+    border-radius: 5px;
+}
+
+table.kanban td:not(.add-task) > div .arrows {
+    position: relative;
+    height: 1em;
+    margin-bottom: 10px;
+}
+
+table.kanban td:not(.add-task) > div .arrows .task-arrow.left,
+table.kanban td:not(.add-task) > div .arrows .task-arrow.right {
+    position: absolute;
+    top: 0;
+    color: rgb(57, 57, 102);
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+table.kanban td:not(.add-task) > div .arrows .task-arrow.left:hover,
+table.kanban td:not(.add-task) > div .arrows .task-arrow.right:hover {
+    color: rgb(11, 11, 70);
+}
+
+table.kanban td:not(.add-task) > div .arrows .task-arrow.left {
+    left: 0;
+}
+
+table.kanban td:not(.add-task) > div .arrows .task-arrow.right {
+    right: 0;
+}
+
+table.kanban td:not(.add-task) > div .name {
+    cursor: pointer;
 }
 
 table.kanban td.add-task {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(204, 205, 207);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-table.kanban td.invisible {
+.add-task button {
+    padding: 8px;
+    border: solid rgb(57, 57, 102) 1px;
+    border-radius: 3px;
+    background-color: rgb(57, 57, 102);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.add-task button:hover {
+    border: solid rgb(11, 11, 70) 1px;
+    background-color: rgb(11, 11, 70);
+}
+
+table.kanban td.td-invisible {
     border: none;
+}
+
+.task-popup {
+    position: relative;
+    padding: 0 10px;
+}
+
+.task-popup .limite-date {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px 0 0;
+    color: gray;
 }

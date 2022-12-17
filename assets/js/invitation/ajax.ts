@@ -1,4 +1,4 @@
-import { createXhrObject } from '../script';
+import { createXhrObject } from '../ajax';
 
 // Selection of every element having the 'invitation' class
 const invitations : NodeListOf<Element> = document.querySelectorAll('.js-invitation');

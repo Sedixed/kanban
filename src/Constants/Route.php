@@ -102,6 +102,13 @@ class Route {
     const TASK_AFFECT_ROUTE = "task.affect";
 
     /**
+     * Tasks move route.
+     * 
+     * @var string
+     */
+    const TASK_MOVE_ROUTE = "task.move";
+
+    /**
      * Tasks creation route.
      * 
      * @var string

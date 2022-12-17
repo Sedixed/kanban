@@ -92,6 +92,33 @@ const date_sort_dec = function(div1 : HTMLDivElement, div2 : HTMLDivElement) {
 };
 
 /**
+ * Hide all tasks that don't belong to the kanban that has the id kanbanId.
+ * 
+ * @param elements The tasks.
+ * @param kanbanId The kanban id.
+ */
+const kanban_sort = (elements: HTMLDivElement[], kanbanId: number) => {
+    elements.forEach(element => {
+        if (+element.dataset.kanbanId !== kanbanId) {
+            element.classList.add("invisible");
+        } else {
+            element.classList.remove("invisible");
+        }
+    });
+}
+
+/**
+ * Shows all the tasks.
+ * 
+ * @param elements The tasks.
+ */
+const kanban_unsort = (elements: Element[]) => {
+    elements.forEach(element => {
+        element.classList.remove("invisible");
+    });
+}
+
+/**
  * Deletes the content of <parent> and replaces it with the elements of
  * <sortedElements>.
  * 
@@ -114,37 +141,49 @@ const refresh = function(parent : HTMLElement, sortedElements : Array<Element>) 
  * @param elementsParent Container of elements to sort.
  * @param unsortedElements Elements to sort.
  */
-export function bind_events(buttonsParent : Element, elementsParent : HTMLElement, unsortedElements : Array<Element>) {
+export function bind_events(buttonsParent : Element, elementsParent : HTMLElement, elements : Array<Element>) {
     const alpha : Element = buttonsParent.querySelector('.js-alpha');
     const alpha_dec : Element = buttonsParent.querySelector('.js-alpha-dec');
     const date : Element = buttonsParent.querySelector('.js-date');
     const date_dec : Element = buttonsParent.querySelector('.js-date-dec');
+    const kanban : Element = buttonsParent.querySelector('.kanban-sort');
 
     if (alpha != null) {
-        alpha.addEventListener('click', (evt) => {
-            unsortedElements.sort(alpha_sort);
-            refresh(elementsParent, unsortedElements);
+        alpha.addEventListener('click', () => {
+            elements.sort(alpha_sort);
+            refresh(elementsParent, elements);
         });
     }
 
     if (alpha_dec != null) {
-        alpha_dec.addEventListener('click', (evt) => {
-            unsortedElements.sort(alpha_sort_dec);
-            refresh(elementsParent, unsortedElements);
+        alpha_dec.addEventListener('click', () => {
+            elements.sort(alpha_sort_dec);
+            refresh(elementsParent, elements);
         });
     }
 
     if (date != null) {
-        date.addEventListener('click', (evt) => {
-            unsortedElements.sort(date_sort);
-            refresh(elementsParent, unsortedElements);
+        date.addEventListener('click', () => {
+            elements.sort(date_sort);
+            refresh(elementsParent, elements);
         });
     }
 
     if (date_dec != null) {
-        date_dec.addEventListener('click', (evt) => {
-            unsortedElements.sort(date_sort_dec);
-            refresh(elementsParent, unsortedElements);
+        date_dec.addEventListener('click', () => {
+            elements.sort(date_sort_dec);
+            refresh(elementsParent, elements);
+        });
+    }
+
+    if (kanban != null && elements instanceof Array<HTMLDivElement>) {
+        kanban.addEventListener("change", (e) => {
+            const kanbanId = +(e.target as HTMLInputElement).value;
+            if (kanbanId < 0) {
+                kanban_unsort(elements);
+                return;
+            }
+            kanban_sort(elements as HTMLDivElement[], kanbanId);
         });
     }
 }
