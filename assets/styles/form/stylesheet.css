@@ -17,6 +17,14 @@ form .textarea-container {
     margin: 0 auto 30px auto;
 }
 
+form .input-container.form-element-bigger-container,
+form .error-message.form-element-bigger-container,
+form .checkbox-container.form-element-bigger-container,
+form .form-errors-list.form-element-bigger-container,
+form .textarea-container.form-element-bigger-container {
+    width: 60%;
+}
+
 form .error-message, form .form-errors-list {
     padding: 5px;
 }

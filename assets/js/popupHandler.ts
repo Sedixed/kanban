@@ -34,6 +34,7 @@ function createPopup(child : Element) {
 function createInput(type : string, labelContent : string, name : string) : HTMLDivElement {
     let inputContainer = document.createElement('div');
     inputContainer.classList.add('input-container');
+    inputContainer.classList.add('form-element-bigger-container');
     let input = document.createElement('input');
     input.name = name;
     input.type = type;
@@ -67,6 +68,7 @@ function createNewTaskForm(action : string) : HTMLFormElement {
 
     let descInputContainer = document.createElement('div');
     descInputContainer.classList.add('textarea-container');
+    descInputContainer.classList.add('form-element-bigger-container');
     let descInput = document.createElement('textarea');
     descInput.name = 'description';
     descInput.required = true;
