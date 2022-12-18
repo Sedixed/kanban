@@ -8,8 +8,8 @@ const tasks_arr : Array<Element> = Array.prototype.slice.call(tasks, 0);
 
 // Binding events for every sorting button
 if (sort_options.length > 0) {
-    if (tasks_arr.length > 0) {
-        bind_events(sort_options[0], tasks_arr[0].parentElement, tasks_arr);
-    }
+  if (tasks_arr.length > 0) {
+    bind_events(sort_options[0], tasks_arr[0].parentElement, tasks_arr);
+  }
 }
 

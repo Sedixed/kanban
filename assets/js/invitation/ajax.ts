@@ -20,20 +20,20 @@ var xhr : XMLHttpRequest = createXhrObject();
  * @param id Identifier of the invitation handled.
  */
 function handleResponse(id : string) : void {
-    if (xhr.readyState == 4) {
-		if (xhr.status == 200) {
-            document.querySelector("div[data-invitation-id='" + id + "']").remove();
-		} else {
-            var error : Element = document.querySelector('.failure-flash');
-            if (error != null) {
-                error.remove();
-            }
-            var div : HTMLDivElement = document.createElement('div');
-            div.setAttribute('class', 'failure-flash');
-            var text : Text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
-            div.appendChild(text);
-            document.querySelector('h1').after(div);
-		}
+  if (xhr.readyState == 4) {
+    if (xhr.status == 200) {
+      document.querySelector("div[data-invitation-id='" + id + "']").remove();
+    } else {
+      var error : Element = document.querySelector('.failure-flash');
+      if (error != null) {
+        error.remove();
+      }
+      var div : HTMLDivElement = document.createElement('div');
+      div.setAttribute('class', 'failure-flash');
+      var text : Text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
+      div.appendChild(text);
+      document.querySelector('h1').after(div);
+    }
 	}
 }
 
@@ -45,23 +45,23 @@ function handleResponse(id : string) : void {
  * @param action The action to perform ("accept" | "reject").
  */
 function sendRequest(event: Event, action: string) : void {
-    // Type specification required as the Element type does not have a dataset property.
-    const target : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
-    const invId : string = target.dataset.invitationId;
+  // Type specification required as the Element type does not have a dataset property.
+  const target : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
+  const invId : string = target.dataset.invitationId;
 
-    xhr.onreadystatechange = function() { handleResponse(invId); };
+  xhr.onreadystatechange = function() { handleResponse(invId); };
 	xhr.open("POST", "/invitation/" + action, true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    var data : object = {id: invId};
+  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  var data : object = {id: invId};
 	xhr.send(JSON.stringify(data));
 }
 
 // Adding click event listeners for every button dedicated to invitation handling
 for (var i : number = 0; i < invitations.length; ++i) {
-    const accept : Element = invitations[i].querySelector('.js-accept');
-    const reject : Element = invitations[i].querySelector('.js-reject');
-    accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
-    reject.addEventListener('click', (evt) => sendRequest(evt, 'reject'));
+  const accept : Element = invitations[i].querySelector('.js-accept');
+  const reject : Element = invitations[i].querySelector('.js-reject');
+  accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
+  reject.addEventListener('click', (evt) => sendRequest(evt, 'reject'));
 }
 
 
