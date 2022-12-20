@@ -12,11 +12,11 @@ const invited_kanbans_arr : Array<Element> = Array.prototype.slice.call(invited_
 
 // Binding events for every sorting button
 if (sort_options.length > 0) {
-    if (user_kanbans.length > 0) {
-        bind_events(sort_options[0], user_kanbans[0].parentElement, user_kanbans_arr);
-    }
-    if (invited_kanbans.length > 0) {
-        bind_events(sort_options[1], invited_kanbans[0].parentElement, invited_kanbans_arr);
-    }    
+  if (user_kanbans.length > 0) {
+    bind_events(sort_options[0], user_kanbans[0].parentElement, user_kanbans_arr);
+  }
+  if (invited_kanbans.length > 0) {
+    bind_events(sort_options[1], invited_kanbans[0].parentElement, invited_kanbans_arr);
+  }    
 }
 

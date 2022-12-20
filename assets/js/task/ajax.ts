@@ -19,51 +19,51 @@ var xhr : XMLHttpRequest = createXhrObject();
  * @param action The action performed ("accept" | "affect").
  */
 function handleResponse(taskId: string, action: string) {
-    if (xhr.readyState == 4) {
+  if (xhr.readyState == 4) {
 		if (xhr.status == 200) {
-            // Mettre le titre
-            // Changer le data username de la task
-            // Supprimer le bouton original et cloné
-            const name = JSON.parse(xhr.responseText).name;
+      // Mettre le titre
+      // Changer le data username de la task
+      // Supprimer le bouton original et cloné
+      const name = JSON.parse(xhr.responseText).name;
 
-            const popup = document.querySelector(".task-popup[data-task-id='" + taskId + "']");
-            const popupTitle = popup.querySelector("h2");
-            const affectTitle = document.createElement("h3");
-            affectTitle.textContent = "Tâche affectée à : " + name;
-            popupTitle.after(affectTitle);
+      const popup = document.querySelector(".task-popup[data-task-id='" + taskId + "']");
+      const popupTitle = popup.querySelector("h2");
+      const affectTitle = document.createElement("h3");
+      affectTitle.textContent = "Tâche affectée à : " + name;
+      popupTitle.after(affectTitle);
 
-            const task: HTMLDivElement = document.querySelector(".js-task[data-task-id='" + taskId + "']");
-            task.dataset.taskUser = name;
+      const task: HTMLDivElement = document.querySelector(".js-task[data-task-id='" + taskId + "']");
+      task.dataset.taskUser = name;
 
-            document.querySelectorAll(
-                ".js-task-affect[data-task-id='" + taskId + "']"
-            ).forEach(button => {
-                button.remove();
-            })
-            // var btn : HTMLButtonElement = document.querySelector();
-            // var p : HTMLParagraphElement = document.createElement('p');
-            // var text : Text = document.createTextNode(action === 'affect' ? 
-            //     'Tâche attribuée à ' + JSON.parse(xhr.responseText).name :
-            //     'Votre tâche'
-            // );
-            // p.appendChild(text);
-            // btn.after(p);
-            // btn.remove();
-            // var ownerDiv : HTMLDivElement = document.querySelector(".task-popup .js-task-affect[data-task-id='" + taskId + "']");
-            // if (ownerDiv != null) {
-            //     ownerDiv.remove();
-            // }
+      document.querySelectorAll(
+          ".js-task-affect[data-task-id='" + taskId + "']"
+      ).forEach(button => {
+          button.remove();
+      })
+      // var btn : HTMLButtonElement = document.querySelector();
+      // var p : HTMLParagraphElement = document.createElement('p');
+      // var text : Text = document.createTextNode(action === 'affect' ? 
+      //     'Tâche attribuée à ' + JSON.parse(xhr.responseText).name :
+      //     'Votre tâche'
+      // );
+      // p.appendChild(text);
+      // btn.after(p);
+      // btn.remove();
+      // var ownerDiv : HTMLDivElement = document.querySelector(".task-popup .js-task-affect[data-task-id='" + taskId + "']");
+      // if (ownerDiv != null) {
+      //     ownerDiv.remove();
+      // }
 		} else {
-            // TODO : à refaire
-            var error : Element = document.querySelector('.failure-flash');
-            if (error != null) {
-                error.remove();
-            }
-            var div : HTMLDivElement = document.createElement('div');
-            div.setAttribute('class', 'failure-flash');
-            var text : Text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
-            div.appendChild(text);
-            document.querySelector(".js-task-affect[data-task-id='" + taskId + "']").after(div);
+      // TODO : à refaire
+      var error : Element = document.querySelector('.failure-flash');
+      if (error != null) {
+          error.remove();
+      }
+      var div : HTMLDivElement = document.createElement('div');
+      div.setAttribute('class', 'failure-flash');
+      var text : Text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
+      div.appendChild(text);
+      document.querySelector(".js-task-affect[data-task-id='" + taskId + "']").after(div);
 		}
 	}
 }
@@ -77,34 +77,34 @@ function handleResponse(taskId: string, action: string) {
  * @param action The action to perform ("accept" | "affect").
  */
 function sendRequest(event: Event, action: string) : void {
-    // Type specification required as the Element type does not have a dataset property.
-    const target : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
-    const taskId : string = target.dataset.taskId;
+  // Type specification required as the Element type does not have a dataset property.
+  const target : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
+  const taskId : string = target.dataset.taskId;
     
-    xhr.onreadystatechange = function() { handleResponse(taskId, action); };
+  xhr.onreadystatechange = function() { handleResponse(taskId, action); };
 	xhr.open("POST", "/task/" + action, true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
-    var data : object = {taskId: taskId};
-    // Add the userId if required (for task affectation)
+  var data : object = {taskId: taskId};
+  // Add the userId if required (for task affectation)
 	if (action === 'affect') {
-        var select : HTMLSelectElement = target.parentNode.querySelector('select');
-        data['userId'] = select.value;
-    }    
+    var select : HTMLSelectElement = target.parentNode.querySelector('select');
+    data['userId'] = select.value;
+  }    
 	xhr.send(JSON.stringify(data));
 }
 
 export function bindAffects(element: Element) {
-    const accept : Element = element.querySelector('.js-accept');
-    const affect : Element = element.querySelector('.js-affect');
-    // Task already affected / user not invited on the kanban
-    if (accept != null) {
-        accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
-    }
-    // Task already affected / user not invited on the kanban
-    if (affect != null) {
-        affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
-    }
+  const accept : Element = element.querySelector('.js-accept');
+  const affect : Element = element.querySelector('.js-affect');
+  // Task already affected / user not invited on the kanban
+  if (accept != null) {
+      accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
+  }
+  // Task already affected / user not invited on the kanban
+  if (affect != null) {
+      affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
+  }
 }
 
 
