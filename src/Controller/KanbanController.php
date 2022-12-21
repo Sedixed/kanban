@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Column;
 use App\Entity\Kanban;
 use App\Constants\Template;
@@ -26,7 +27,7 @@ class KanbanController extends AbstractController
         methods: ['GET', 'POST']
     )]
     #[IsGranted("ROLE_USER")]
-    public function create(Request $request, EntityManagerInterface $manager, UserInterface $user)
+    public function create(Request $request, EntityManagerInterface $manager, UserInterface $user, KanbanService $service)
         : Response 
     {
         $kanban = new Kanban();
@@ -50,8 +51,11 @@ class KanbanController extends AbstractController
 
             $manager->persist($kanban);
             $manager->flush();
-
-            return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
+            
+            // TODO : voir avec jordan pour URL
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                "id" => $kanban->getId()
+            ]);
         }
 
         return $this->render(Template::PAGE_KANBAN_CREATION, [
@@ -64,7 +68,7 @@ class KanbanController extends AbstractController
         name: RouteConstants::KANBAN_ROUTE, 
         methods: ['GET', 'POST']
     )]
-    public function view(Request $request, KanbanRepository $repo, int $id, KanbanService $service, ?UserInterface $user = null): Response {
+    public function view(KanbanRepository $repo, int $id, KanbanService $service, ?UserInterface $user = null): Response {
         $kanban = $repo->findOneBy(['id' => $id]);
         if ($kanban == null) {
             $this->addFlash('error', 'Kanban introuvable');
@@ -79,12 +83,10 @@ class KanbanController extends AbstractController
                 return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
             }
         }
-
-        $maxTasks = $service->getMaxTasksAmount($kanban);
         
         return $this->render(Template::PAGE_KANBAN_VIEW, [
             "kanban" => $kanban,
-            "maxTasks" => $maxTasks
+            "maxTasks" => $service->getMaxTasksAmount($kanban)
         ]);
     }
 
@@ -95,10 +97,10 @@ class KanbanController extends AbstractController
     )]
     #[IsGranted("ROLE_USER")]
     public function list(KanbanRepository $repo, UserInterface $user): Response {
-        $kanbans_owned = $repo->findBy(
-            ['owner' => $user]
-        );
-
+        $kanbans_owned = null;
+        if ($user instanceof User) {
+            $kanbans_owned = $user->getOwnedKanbans();
+        }
         $kanbans_invited = $repo->getInvitedKanbans($user);
 
         return $this->render(Template::PAGE_KANBAN_BY_USER_LIST, [

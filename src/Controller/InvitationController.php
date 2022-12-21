@@ -46,6 +46,10 @@ class InvitationController extends AbstractController
         }
 
         $params = json_decode($request->getContent(), true);
+        if (!isset($params['id'])) {
+            throw new FunctionalException("Paramètre de requête manquant", Response::HTTP_NOT_FOUND);
+        }
+
         $invitation = $repo->findOneBy(
             ['id' => $params['id']]
         );
@@ -74,6 +78,10 @@ class InvitationController extends AbstractController
         }
 
         $params = json_decode($request->getContent(), true);
+        if (!isset($params['id'])) {
+            throw new FunctionalException("Paramètre de requête manquant", Response::HTTP_NOT_FOUND);
+        }
+        
         $invitation = $repo->findOneBy(
             ['id' => $params['id']]
         );
@@ -97,7 +105,10 @@ class InvitationController extends AbstractController
     public function send(Request $request, KanbanRepository $repo, UserRepository $user_repo, int $id, EntityManagerInterface $manager): Response
     {   
         $kanban = $repo->findOneBy(['id' => $id]);
-        // traiter cas ou kanban == null
+        if ($kanban == null) {
+            throw new FunctionalException("Kanban invalide", Response::HTTP_NOT_FOUND);
+        }
+
         $username = $request->get('username');
         if ($username != null) {
             $user = $user_repo->findOneBy(['username' => $username]);

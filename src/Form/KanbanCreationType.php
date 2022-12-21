@@ -45,7 +45,8 @@ class KanbanCreationType extends AbstractType
                 'entry_type' => TextType::class,
                 'entry_options' => [
                     'constraints' => [
-                        new Assert\NotBlank()
+                        new Assert\NotBlank(),
+                        new Assert\Length(min: 3, max: 255)
                     ]
                 ],
                 'label' => false,

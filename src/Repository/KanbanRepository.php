@@ -41,26 +41,14 @@ class KanbanRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInvitedKanbans(User $user, string $sort = null): array
+    public function getInvitedKanbans(User $user): array
     {
         $entityManager = $this->getEntityManager();
 
-        if ($sort == "alpha") {
-            $query = $entityManager->createQuery(
-                'SELECT k
-                FROM App\Entity\Kanban k JOIN k.users us WHERE :user IN (us) AND :user <> k.owner ORDER BY k.name'
-            )->setParameter('user', $user);
-        } else if ($sort == "alpha-dec") {
-            $query = $entityManager->createQuery(
-                'SELECT k
-                FROM App\Entity\Kanban k JOIN k.users us WHERE :user IN (us) AND :user <> k.owner ORDER BY k.name DESC'
-            )->setParameter('user', $user);
-        } else {
-            $query = $entityManager->createQuery(
-                'SELECT k
-                FROM App\Entity\Kanban k JOIN k.users us WHERE :user IN (us) AND :user <> k.owner'
-            )->setParameter('user', $user);
-        }
+        $query = $entityManager->createQuery(
+            'SELECT k
+            FROM App\Entity\Kanban k JOIN k.users us WHERE :user IN (us) AND :user <> k.owner'
+        )->setParameter('user', $user);
 
         return $query->getResult();
     }

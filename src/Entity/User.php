@@ -42,22 +42,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\ManyToMany(targetEntity: Kanban::class, inversedBy: 'users')]
-    private Collection $kanban;
+    private Collection $allKanbans;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Invitation::class, orphanRemoval: true)]
     private Collection $invitations;
 
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Kanban::class, orphanRemoval: true)]
-    private Collection $kanbans;
+    private Collection $ownedKanbans;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class)]
     private Collection $tasks;
 
     public function __construct()
     {
-        $this->kanban = new ArrayCollection();
+        $this->allKanbans = new ArrayCollection();
         $this->invitations = new ArrayCollection();
-        $this->kanbans = new ArrayCollection();
+        $this->ownedKanbans = new ArrayCollection();
         $this->tasks = new ArrayCollection();
     }
 
@@ -154,15 +154,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Kanban>
      */
-    public function getKanban(): Collection
+    public function getAllKanbans(): Collection
     {
-        return $this->kanban;
+        return $this->allKanbans;
     }
 
     public function addKanban(Kanban $kanban): self
     {
-        if (!$this->kanban->contains($kanban)) {
-            $this->kanban->add($kanban);
+        if (!$this->allKanbans->contains($kanban)) {
+            $this->allKanbans->add($kanban);
         }
 
         return $this;
@@ -170,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeKanban(Kanban $kanban): self
     {
-        $this->kanban->removeElement($kanban);
+        $this->allKanbans->removeElement($kanban);
 
         return $this;
     }
@@ -208,9 +208,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Kanban>
      */
-    public function getKanbans(): Collection
+    public function getOwnedKanbans(): Collection
     {
-        return $this->kanbans;
+        return $this->ownedKanbans;
     }
 
     /**

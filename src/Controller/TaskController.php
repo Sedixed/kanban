@@ -61,6 +61,9 @@ class TaskController extends AbstractController
         }
 
         $params = json_decode($request->getContent(), true);
+        if (!isset($params['taskId'])) {
+            throw new FunctionalException("Paramètre de requête manquant", Response::HTTP_NOT_FOUND);
+        }
 
         // Verifies that the task exists
         $task = $repo->findOneBy(
@@ -80,7 +83,7 @@ class TaskController extends AbstractController
         // Verifies that the task is not already affected
         if ($task->getUser() != null) {
             throw new FunctionalException(
-                iconv("ISO-8859-1", "UTF-8", "Tache deja affectee"), 
+                "Tache deja affectee", 
                 Response::HTTP_NOT_FOUND
             );
         }
@@ -110,6 +113,9 @@ class TaskController extends AbstractController
         }
 
         $params = json_decode($request->getContent(), true);
+        if (!isset($params['taskId']) || !isset($params['userId'])) {
+            throw new FunctionalException("Paramètre de requête manquant", Response::HTTP_NOT_FOUND);
+        }
 
         // Verifies that the task exists
         $task = $repo->findOneBy(
@@ -152,7 +158,7 @@ class TaskController extends AbstractController
         methods: ['POST']
     )]
     #[IsGranted("ROLE_USER")]
-    public function create(Request $request, EntityManagerInterface $manager, KanbanService $service, ColumnRepository $repo, int $id) : Response 
+    public function create(Request $request, EntityManagerInterface $manager, ColumnRepository $repo, int $id) : Response 
     {
         $column = $repo->findOneBy([
             'id' => $id

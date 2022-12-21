@@ -45,6 +45,10 @@ class RegistrationType extends AbstractType
                     ],
                     'label' => 'Confirmation du mot de passe'
                 ],
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 3, 'max' => 255])
+                ],
                 'invalid_message' => 'Les mots de passes doivent être identiques.'
             ])
             ->add('submit', SubmitType::class, [

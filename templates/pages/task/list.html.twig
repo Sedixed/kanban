@@ -14,7 +14,7 @@
             <button class="js-date-dec">Date limite décroissant</button>
             <select class="kanban-sort">
                 <option selected value="-1" class="select-reset">Kanban</option>
-                {% for kanban in user.kanbans %}
+                {% for kanban in user.allKanbans %}
                     <option value={{ kanban.id }}>{{ kanban.name }}</option>
                 {% endfor %}
             </select>
