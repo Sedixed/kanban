@@ -7,6 +7,11 @@ import { bindAffects } from "./task/ajax";
  * @param child The content of the popup.
  */
 function createPopup(child : Element, closeMessage: string = "Annuler") {
+  const background = document.createElement("div");
+  background.classList.add("js-popup-background");
+  background.classList.add("popup-background");
+  document.body.appendChild(background);
+
   let popup : HTMLDivElement = document.createElement('div');
   popup.classList.add('popup');
 
@@ -16,7 +21,10 @@ function createPopup(child : Element, closeMessage: string = "Annuler") {
 
   let exit : HTMLButtonElement = document.createElement('button');
   exit.classList.add('popup-exit');
-  exit.addEventListener('click', () => popup.remove());
+  exit.addEventListener('click', () => {
+    popup.remove();
+    background.remove();
+  });
   let exitText = document.createTextNode(closeMessage);
   exit.append(exitText);
 
