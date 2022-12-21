@@ -112,9 +112,43 @@ table.kanban td.td-invisible {
 }
 
 .task-popup .limite-date {
-    position: absolute;
-    top: 0;
-    right: 0;
     padding: 5px 10px 0 0;
     color: gray;
+}
+
+.task-popup .affect-container {
+    margin-bottom: 10px;
+}
+
+.task-popup .delete-task {
+    text-decoration: none;
+    padding: 5px;
+    border: solid #c44133 1px;
+    border-radius: 3px;
+    color: white;
+    background-color: #c44133;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.task-popup .delete-task:hover {
+    background-color: #973429;
+    border: solid #973429 1px;
+}
+
+/* Markdown formatting */
+
+span.underline {
+    text-decoration: underline;
+}
+
+span.deleted {
+    text-decoration: line-through;
+}
+
+span.bold {
+    font-weight: bold;
+}
+
+span.italic {
+    font-style: italic;
 }

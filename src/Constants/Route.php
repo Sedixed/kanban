@@ -114,4 +114,11 @@ class Route {
      * @var string
      */
     const TASK_CREATE_ROUTE = "task.create";
+
+    /**
+     * Tasks deletion route.
+     * 
+     * @var string
+     */
+    const TASK_DELETE_ROUTE = "task.delete";
 }

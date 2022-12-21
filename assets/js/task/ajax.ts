@@ -21,11 +21,7 @@ var xhr : XMLHttpRequest = createXhrObject();
 function handleResponse(taskId: string, action: string) {
   if (xhr.readyState == 4) {
 		if (xhr.status == 200) {
-      // Mettre le titre
-      // Changer le data username de la task
-      // Supprimer le bouton original et cloné
       const name = JSON.parse(xhr.responseText).name;
-
       const popup = document.querySelector(".task-popup[data-task-id='" + taskId + "']");
       const popupTitle = popup.querySelector("h2");
       const affectTitle = document.createElement("h3");
@@ -36,28 +32,14 @@ function handleResponse(taskId: string, action: string) {
       task.dataset.taskUser = name;
 
       document.querySelectorAll(
-          ".js-task-affect[data-task-id='" + taskId + "']"
+        ".js-task-affect[data-task-id='" + taskId + "'] .task-actions"
       ).forEach(button => {
           button.remove();
-      })
-      // var btn : HTMLButtonElement = document.querySelector();
-      // var p : HTMLParagraphElement = document.createElement('p');
-      // var text : Text = document.createTextNode(action === 'affect' ? 
-      //     'Tâche attribuée à ' + JSON.parse(xhr.responseText).name :
-      //     'Votre tâche'
-      // );
-      // p.appendChild(text);
-      // btn.after(p);
-      // btn.remove();
-      // var ownerDiv : HTMLDivElement = document.querySelector(".task-popup .js-task-affect[data-task-id='" + taskId + "']");
-      // if (ownerDiv != null) {
-      //     ownerDiv.remove();
-      // }
+      });
 		} else {
-      // TODO : à refaire
       var error : Element = document.querySelector('.failure-flash');
       if (error != null) {
-          error.remove();
+        error.remove();
       }
       var div : HTMLDivElement = document.createElement('div');
       div.setAttribute('class', 'failure-flash');
@@ -99,11 +81,11 @@ export function bindAffects(element: Element) {
   const affect : Element = element.querySelector('.js-affect');
   // Task already affected / user not invited on the kanban
   if (accept != null) {
-      accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
+    accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
   }
   // Task already affected / user not invited on the kanban
   if (affect != null) {
-      affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
+    affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
   }
 }
 

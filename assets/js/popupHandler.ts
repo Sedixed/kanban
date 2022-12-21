@@ -92,6 +92,21 @@ function createNewTaskForm(action : string) : HTMLFormElement {
 }
 
 /**
+ * Converts Markdown text to HTML text.
+ * @param mdText The markdown text to convert.
+ * @returns      The converted to HTML text.
+ */
+function formatMarkdown(mdText: string) : string {
+  const htmlText = mdText
+    .replace(/(\*\*)(.*?)(\*\*)/gim, '<span class="bold">$2</span>') // bold
+    .replace(/(\*)(.*?)(\*)/gim, '<span class="italic">$2</span>') // italic
+    .replace(/(__)(.*?)(__)/gim, '<span class="underline">$2</span>') // underlined
+    .replace(/(~~)(.*?)(~~)/gim, '<span class="deleted">$2</span>'); // deleted
+
+  return htmlText.trim();
+}
+
+/**
  * Creates a popup for task creation under the column that has the id
  * <id>.
  * 
@@ -112,6 +127,13 @@ export function createTaskPopup(id: number, name: string, description: string,
   nameElement.textContent = name;
   container.appendChild(nameElement);
 
+  if (date != null) {
+    const dateElement = document.createElement("span");
+    dateElement.classList.add("limite-date");
+    dateElement.textContent = "Date limite : " + (new Date(date)).toLocaleDateString();
+    container.appendChild(dateElement);
+  }
+
   if (username != null) {
     const usernameElement = document.createElement("h3");
     usernameElement.textContent = "Tâche assignée à : " + username;
@@ -119,15 +141,8 @@ export function createTaskPopup(id: number, name: string, description: string,
   }
 
   const descriptionElement = document.createElement("p");
-  descriptionElement.textContent = description;
+  descriptionElement.innerHTML = formatMarkdown(description);
   container.appendChild(descriptionElement);
-
-  if (date != null) {
-    const dateElement = document.createElement("span");
-    dateElement.classList.add("limite-date");
-    dateElement.textContent = "Date limite : " + (new Date(date)).toLocaleDateString();
-    container.appendChild(dateElement);
-  }
 
   const affectationElementToClone = document
     .querySelector(`.js-task-affect[data-task-id="${id}"]`)
@@ -136,6 +151,6 @@ export function createTaskPopup(id: number, name: string, description: string,
     bindAffects(affectationElement as Element);
     container.appendChild(affectationElement);
   }
-
+  
   createPopup(container, "Fermer");
 }

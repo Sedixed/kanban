@@ -200,7 +200,7 @@ class TaskController extends AbstractController
 
         $task = new Task();
         $task->setName($name)
-            ->setDescription($desc)
+            ->setDescription(htmlspecialchars($desc))
             ->setLimitDate($date)
             ->setKanbanColumn($column);
 
@@ -211,6 +211,40 @@ class TaskController extends AbstractController
         
         return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
             'id' => $column->getKanban()->getId()
+        ]);
+    }
+
+    #[Route(
+        '/task/delete/{id}',
+        name: RouteConstants::TASK_DELETE_ROUTE, 
+        methods: ['GET']
+    )]
+    #[IsGranted("ROLE_USER")]
+    public function delete(EntityManagerInterface $manager, TaskRepository $repo, int $id, UserInterface $user) : Response 
+    {
+        $task = $repo->findOneBy([
+            'id' => $id
+        ]);
+
+        if ($task == null) {
+            $this->addFlash('error', 'Erreur lors de la suppression : tâche introuvable');
+            return $this->redirectToRoute(RouteConstants::HOME_ROUTE);
+        }
+
+        $kanban = $task->getKanbanColumn()->getKanban();
+
+        if ($user != $kanban->getOwner()) {
+            $this->addFlash('error', 'Erreur lors de la suppression : seul le propriétaire peut effectuer cette action');
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                'id' => $kanban->getId()
+            ]);
+        }
+
+        $manager->remove($task);
+        $manager->flush();
+        
+        return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+            'id' => $kanban->getId()
         ]);
     }
 

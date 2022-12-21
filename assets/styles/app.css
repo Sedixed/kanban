@@ -36,28 +36,36 @@ html body {
     display: none;
 }
 
-/* Sorting options */
+/* Sorting options and task actions */
 
 .sort-options {
     text-align: center;
 }
 
+.task-actions button,
+.task-actions select,
 .sort-options button,
 .sort-options select {
     background-color: rgb(57, 57, 102);
     margin-top: 5px;
     padding: 10px;
     border-radius: 3px;
-    font-size: 1.2rem;
     border: none;
     color: white;
     cursor: pointer;
 }
 
+.sort-options button,
+.sort-options select {
+    font-size: 1.2rem;
+}
+
+.task-actions button,
 .sort-options button {
     transition-duration: .3s;
 }
 
+.task-actions button:hover,
 .sort-options button:hover {
     background-color: rgb(11, 11, 70);
 }
@@ -106,4 +114,3 @@ html body {
     background-color: #973429;
     border: solid #973429 1px;
 }
-

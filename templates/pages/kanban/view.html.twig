@@ -62,12 +62,12 @@
                                     <div class="arrows">
                                         {% if j != 0 %}
                                             <a href="{{ url(routeConst("TASK_MOVE_ROUTE"), {'id': task.id, 'to': kanban.columns[j - 1].id}) }}" class="left task-arrow">
-                                                🡸
+                                                &#11013;
                                             </a>
                                         {% endif %}
                                         {% if j != (kanban.columns | length - 1) %}
                                             <a href="{{ url(routeConst("TASK_MOVE_ROUTE"), {'id': task.id, 'to': kanban.columns[j + 1].id}) }}" class="right task-arrow">
-                                                🡺
+                                                &#10145;
                                             </a>
                                         {% endif %}
                                     </div>
@@ -76,7 +76,7 @@
                                     </span>
                                 </div>
                             </td>
-                        {% elseif i == 0 or kanban.columns[j].tasks[i - 1] is defined %}
+                        {% elseif app.user and (app.user in kanban.users or app.user == kanban.owner) and (i == 0 or kanban.columns[j].tasks[i - 1] is defined) %}
                             <td class="add-task">
                                 <div>
                                     <button data-col-id="{{ kanban.columns[j].id }}">
@@ -110,22 +110,29 @@
                                 <p>Tâche attribuée à {{ task.user.username }}</p>
                             {% endif %}
                         {% else %}
-                            {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
-                                <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
-                                {% if app.user == kanban.owner %}
-                                    <div class="js-affect-container" data-task-id="{{ task.id }}">
-                                        <select name="user">
-                                            {% for user in kanban.users %}
-                                                <option value="{{ user.id }}">{{ user.username }}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
-                                    </div>
+                            <div class="task-actions">
+                                {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
+                                    <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
+                                    {% if app.user == kanban.owner %}
+                                        <div class="js-affect-container affect-container" data-task-id="{{ task.id }}">
+                                            <select name="user">
+                                                {% for user in kanban.users %}
+                                                    <option value="{{ user.id }}">{{ user.username }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <p>Tâche non affectée</p>
                                 {% endif %}
-                            {% else %}
-                                <p>Tâche non affectée</p>
-                            {% endif %}
+                            </div>
                         {% endif %}
+
+                        {% if app.user and app.user == kanban.owner %}
+                            <a class="delete-task" href="/task/delete/{{ task.id }}">Supprimer</a>
+                        {% endif %} 
+
                     {% endif %}
                 </div>
             {% endfor %}
