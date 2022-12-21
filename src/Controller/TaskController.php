@@ -254,7 +254,7 @@ class TaskController extends AbstractController
         methods: ['GET']
     )]
     #[IsGranted("ROLE_USER")]
-    public function move(int $id, int $to, TaskRepository $taskRepository, EntityManagerInterface $manager, ColumnRepository $columnRepository): Response {
+    public function move(int $id, int $to, UserInterface $user, TaskRepository $taskRepository, EntityManagerInterface $manager, ColumnRepository $columnRepository): Response {
         $task = $taskRepository->findOneBy(compact("id"));
         if ($task === null) {
             $this->addFlash("error", "La tâche est invalide");
@@ -262,6 +262,16 @@ class TaskController extends AbstractController
         }
 
         $kanban = $task->getKanbanColumn()->getKanban();
+        if (
+            !$kanban->getUsers()->contains($user) 
+            && $user != $kanban->getOwner()
+        ) {
+            $this->addFlash("error", "Impossible de déplacer la tâche");
+            return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
+                "id" => $kanban->getId()
+            ]);
+        }
+
         $columnTo = $columnRepository->findOneBy(["id" => $to]);
         if (
             $columnTo === null 

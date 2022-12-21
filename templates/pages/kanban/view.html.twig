@@ -60,12 +60,12 @@
                                 >
                                 <div>
                                     <div class="arrows">
-                                        {% if j != 0 %}
+                                        {% if j != 0 and app.user and (app.user == kanban.owner or app.user in kanban.users) %}
                                             <a href="{{ url(routeConst("TASK_MOVE_ROUTE"), {'id': task.id, 'to': kanban.columns[j - 1].id}) }}" class="left task-arrow">
                                                 &#11013;
                                             </a>
                                         {% endif %}
-                                        {% if j != (kanban.columns | length - 1) %}
+                                        {% if j != (kanban.columns | length - 1) and app.user and (app.user == kanban.owner or app.user in kanban.users) %}
                                             <a href="{{ url(routeConst("TASK_MOVE_ROUTE"), {'id': task.id, 'to': kanban.columns[j + 1].id}) }}" class="right task-arrow">
                                                 &#10145;
                                             </a>
