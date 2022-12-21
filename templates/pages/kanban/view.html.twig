@@ -129,7 +129,7 @@
                             </div>
                         {% endif %}
 
-                        {% if app.user and app.user == kanban.owner %}
+                        {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %}
                             <a class="delete-task" href="/task/delete/{{ task.id }}">Supprimer</a>
                         {% endif %} 
 
