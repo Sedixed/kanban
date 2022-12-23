@@ -106,6 +106,10 @@ class Kanban {
   public static initFromTemplate(
     table: HTMLTableElement, members: NodeListOf<HTMLLIElement>
   ): Kanban {
+    if (table == null || members == null) {
+      return; 
+    }
+
     const kanban = new Kanban();
     kanban._template = table;
     members.forEach((member: HTMLLIElement) => {

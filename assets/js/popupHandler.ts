@@ -182,13 +182,16 @@ export function createTaskPopup(task: KanbanTask): HTMLDivElement {
     const owner = task.column.kanban.getMembers().filter((member) => {
       return member.isOwner;
     })[0];
-    if (owner.isCurrent) {
+    if (owner.isCurrent && task.column.kanban.getMembers().length > 1) {
       const affectContainerElement = document.createElement("div");
       affectContainerElement.classList.add("affect-container");
 
       const affectSelectElement = document.createElement("select");
       affectSelectElement.name = "user";
       task.column.kanban.getMembers().forEach((member) => {
+        if (member.isOwner) {
+          return;
+        }
         const optionElement = document.createElement("option");
         optionElement.value = member.id.toString();
         optionElement.innerText = member.username;
