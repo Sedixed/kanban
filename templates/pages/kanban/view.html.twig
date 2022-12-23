@@ -75,6 +75,13 @@
                                     <span class="name">
                                         {{ task.name }}
                                     </span>
+                                    {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %}
+                                        <div>
+                                            <a class="delete-task" href="/task/delete/{{ task.id }}">
+                                                Supprimer
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </td>
                         {% elseif app.user and (app.user in kanban.users or app.user == kanban.owner) and (i == 0 or kanban.columns[j].tasks[i - 1] is defined) %}
@@ -94,24 +101,6 @@
         </tbody>
     </table>
 </div>
-
-{# <div class="task-actions">
-{% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
-    <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
-    {% if app.user == kanban.owner %}
-        <div class="affect-container">
-            <select name="user">
-                {% for user in kanban.users %}
-                    <option value="{{ user.id }}">{{ user.username }}</option>
-                {% endfor %}
-            </select>
-            <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
-        </div>
-    {% endif %}
-{% else %}
-    <p>Tâche non affectée</p>
-{% endif %}
-</div> #}
 
 <h2 class="members-title">Membres</h2>
 

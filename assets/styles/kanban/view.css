@@ -119,12 +119,10 @@ table.kanban td.td-invisible {
     margin-bottom: 10px;
 }
 
-.task-popup .delete-task-container {
-    padding: 10px 0;
-}
-
-.task-popup .delete-task {
+.delete-task {
+    display: inline-block;
     text-decoration: none;
+    margin: 5px 0;
     padding: 5px;
     border: solid #c44133 1px;
     border-radius: 3px;
@@ -133,7 +131,7 @@ table.kanban td.td-invisible {
     transition: background-color 0.3s, border 0.3s;
 }
 
-.task-popup .delete-task:hover {
+.delete-task:hover {
     background-color: #973429;
     border: solid #973429 1px;
 }
