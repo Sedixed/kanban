@@ -133,12 +133,8 @@ export function createNewTaskPopup(id : number) {
 /**
  * Create a popup for task display.
  * 
- * @param   name        The name of the task.
- * @param   description The description of the task.
- * @param   username    The username of the task owner.
- * @param   date        The limit date of the task.
- * @param   members     The kanban members.
- * @returns             The popup container.
+ * @param   task The kanban task to display.
+ * @returns      The popup container.
  */
 export function createTaskPopup(task: KanbanTask): HTMLDivElement {
   const container = document.createElement("div")
