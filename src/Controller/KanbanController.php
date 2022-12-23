@@ -52,7 +52,6 @@ class KanbanController extends AbstractController
             $manager->persist($kanban);
             $manager->flush();
             
-            // TODO : voir avec jordan pour URL
             return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
                 "id" => $kanban->getId()
             ]);

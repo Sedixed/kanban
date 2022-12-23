@@ -1,16 +1,7 @@
-import { createTaskPopup } from "../popupHandler";
+import { Kanban } from "./Kanban";
 
-document.querySelectorAll(".js-task").forEach((task: HTMLDivElement) => {
-  task.addEventListener("click", (e) => {
-    if (e.target instanceof HTMLAnchorElement) {
-      return;
-    }
-    createTaskPopup(
-      +task.dataset.taskId,
-      task.dataset.taskName, 
-      task.dataset.taskDescription,
-      task.dataset.taskUser ?? null,
-      task.dataset.taskDate ?? null
-    );
-  })
-})
+// Initialise un object Kanban qui permettra la gestion de celui-ci.
+Kanban.initFromTemplate(
+  document.querySelector("table.kanban"), 
+  document.querySelectorAll(".js-members li")
+);

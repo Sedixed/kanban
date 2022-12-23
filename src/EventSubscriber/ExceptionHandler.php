@@ -88,9 +88,9 @@ class ExceptionHandler implements EventSubscriberInterface
 
     public function processOtherException(ExceptionEvent $event)
     {
-        // In production environment, the error is not handled
+        // In production environment, the error is handled by Symfony
         if ($_ENV["APP_ENV"] == "prod") {
-            // TODO : Redirect to 500 or 404 error page
+            // Let the exception go up
         }
     }
 }

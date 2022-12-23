@@ -51,6 +51,7 @@
                                 data-task-id="{{ task.id }}"
                                 data-task-name="{{ task.name }}"
                                 data-task-description="{{ task.description }}"
+                                data-column-offset="{{ kanban.columns[j].offset }}"
                                 {% if task.user is not null %}
                                     data-task-user="{{ task.user.username }}"
                                 {% endif %}
@@ -94,51 +95,37 @@
     </table>
 </div>
 
-<div class="tasks-affects-container invisible">
-    {% for i in 0..(kanban.columns | length - 1) %}
-        {% set col = kanban.columns[i] %}
-        {% if (kanban.columns[i].tasks | length) >   0 %}
-            {% for j in 0..(kanban.columns[i].tasks | length - 1) %}
-                {% set task = kanban.columns[i].tasks[j] %}
-                <div class="js-task-affect" data-task-id="{{ task.id }}">
-                    {# Nous n'affichons pas les affectations / boutons d'affectation si c'est la colonne "Terminées" #}
-                    {% if kanban.columns | last != col %}
-                        {% if task.user %}
-                            {% if app.user and task.user == app.user %}
-                                <p>Votre tâche</p>
-                            {% else %}
-                                <p>Tâche attribuée à {{ task.user.username }}</p>
-                            {% endif %}
-                        {% else %}
-                            <div class="task-actions">
-                                {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
-                                    <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
-                                    {% if app.user == kanban.owner %}
-                                        <div class="js-affect-container affect-container" data-task-id="{{ task.id }}">
-                                            <select name="user">
-                                                {% for user in kanban.users %}
-                                                    <option value="{{ user.id }}">{{ user.username }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
-                                        </div>
-                                    {% endif %}
-                                {% else %}
-                                    <p>Tâche non affectée</p>
-                                {% endif %}
-                            </div>
-                        {% endif %}
+{# <div class="task-actions">
+{% if app.user and (app.user == kanban.owner or app.user in kanban.users) %} 
+    <button data-task-id="{{ task.id }}" class="js-accept">Accepter</button>
+    {% if app.user == kanban.owner %}
+        <div class="affect-container">
+            <select name="user">
+                {% for user in kanban.users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <button data-task-id="{{ task.id }}" class="js-affect">Affecter</button>
+        </div>
+    {% endif %}
+{% else %}
+    <p>Tâche non affectée</p>
+{% endif %}
+</div> #}
 
-                        {% if app.user and (app.user == kanban.owner or app.user in kanban.users) %}
-                            <a class="delete-task" href="/task/delete/{{ task.id }}">Supprimer</a>
-                        {% endif %} 
+<h2 class="members-title">Membres</h2>
 
-                    {% endif %}
-                </div>
-            {% endfor %}
-        {% endif %}
+<ul class="js-members">
+    {% for user in kanban.users %}
+        <li 
+            data-id="{{ user.id }}"
+            data-is-owner="{{ user == kanban.owner ? 1 : 0 }}"
+            data-is-current="{{ app.user and app.user == user ? 1 : 0 }}"
+            >
+            {{ user.username }}
+        </li>
     {% endfor %}
-</div>
+</ul>
 
 {% if app.user == kanban.owner %}
 

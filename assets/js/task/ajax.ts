@@ -16,26 +16,13 @@ var xhr : XMLHttpRequest = createXhrObject();
  * HTML div element.
  * 
  * @param taskId Identifier of the task handled.
- * @param action The action performed ("accept" | "affect").
  */
-function handleResponse(taskId: string, action: string) {
+function handleResponse(
+  taskId: string, callback: (taskId: number, res: object) => void
+) {
   if (xhr.readyState == 4) {
 		if (xhr.status == 200) {
-      const name = JSON.parse(xhr.responseText).name;
-      const popup = document.querySelector(".task-popup[data-task-id='" + taskId + "']");
-      const popupTitle = popup.querySelector("h2");
-      const affectTitle = document.createElement("h3");
-      affectTitle.textContent = "Tâche affectée à : " + name;
-      popupTitle.after(affectTitle);
-
-      const task: HTMLDivElement = document.querySelector(".js-task[data-task-id='" + taskId + "']");
-      task.dataset.taskUser = name;
-
-      document.querySelectorAll(
-        ".js-task-affect[data-task-id='" + taskId + "'] .task-actions"
-      ).forEach(button => {
-          button.remove();
-      });
+      callback(+taskId, JSON.parse(xhr.responseText));
 		} else {
       var error : Element = document.querySelector('.failure-flash');
       if (error != null) {
@@ -45,7 +32,7 @@ function handleResponse(taskId: string, action: string) {
       div.setAttribute('class', 'failure-flash');
       var text : Text = document.createTextNode(xhr.getResponseHeader('X-Error-Message'));
       div.appendChild(text);
-      document.querySelector(".js-task-affect[data-task-id='" + taskId + "']").after(div);
+      document.querySelector(".kanban-title").after(div);
 		}
 	}
 }
@@ -58,12 +45,16 @@ function handleResponse(taskId: string, action: string) {
  * @param event  The event that triggered the call to the function.
  * @param action The action to perform ("accept" | "affect").
  */
-function sendRequest(event: Event, action: string) : void {
+export function sendTaskAffectRequest(
+  event: Event, action: string, callback: (taskId: number, res: object) => void
+) : void {
   // Type specification required as the Element type does not have a dataset property.
   const target : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
   const taskId : string = target.dataset.taskId;
-    
-  xhr.onreadystatechange = function() { handleResponse(taskId, action); };
+  
+  xhr.onreadystatechange = () => {
+    handleResponse(taskId, callback);
+  };
 	xhr.open("POST", "/task/" + action, true);
   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
@@ -72,21 +63,8 @@ function sendRequest(event: Event, action: string) : void {
 	if (action === 'affect') {
     var select : HTMLSelectElement = target.parentNode.querySelector('select');
     data['userId'] = select.value;
-  }    
-	xhr.send(JSON.stringify(data));
-}
-
-export function bindAffects(element: Element) {
-  const accept : Element = element.querySelector('.js-accept');
-  const affect : Element = element.querySelector('.js-affect');
-  // Task already affected / user not invited on the kanban
-  if (accept != null) {
-    accept.addEventListener('click', (evt) => sendRequest(evt, 'accept'));
   }
-  // Task already affected / user not invited on the kanban
-  if (affect != null) {
-    affect.addEventListener('click', (evt) => sendRequest(evt, 'affect'));
-  }
+  xhr.send(JSON.stringify(data));
 }
 
 

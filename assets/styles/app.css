@@ -55,6 +55,10 @@ html body {
     cursor: pointer;
 }
 
+.task-actions button.affect-btn {
+    margin-left: 5px;
+}
+
 .sort-options button,
 .sort-options select {
     font-size: 1.2rem;

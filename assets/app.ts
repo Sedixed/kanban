@@ -23,6 +23,7 @@ import './js/sortHandler.ts';
 import './js/popupHandler.ts';
 import './js/ajax.ts';
 
+import './js/kanban/Kanban.ts';
 import './js/kanban/create.ts';
 import './js/kanban/list.ts';
 import './js/kanban/view.ts';

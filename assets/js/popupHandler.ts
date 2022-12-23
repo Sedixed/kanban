@@ -1,12 +1,15 @@
-import { bindAffects } from "./task/ajax";
+import { KanbanMember, KanbanTask } from "./kanban/Kanban";
 
 /**
  * Creates a popup container with the content <child>,
  * ignoring the page flow.
  * 
- * @param child The content of the popup.
+ * @param   child The content of the popup.
+ * @returns       The popup created.
  */
-function createPopup(child : Element, closeMessage: string = "Annuler") {
+function createPopup(
+  child : Element, closeMessage: string = "Annuler"
+): HTMLDivElement {
   const background = document.createElement("div");
   background.classList.add("js-popup-background");
   background.classList.add("popup-background");
@@ -30,7 +33,9 @@ function createPopup(child : Element, closeMessage: string = "Annuler") {
 
   relativeContainer.append(child);
   relativeContainer.append(exit);
-  document.getElementsByTagName('body')[0].append(popup);
+  document.body.append(popup);
+
+  return popup;
 }
 
 /**
@@ -125,40 +130,88 @@ export function createNewTaskPopup(id : number) {
   createPopup(form);
 }
 
-export function createTaskPopup(id: number, name: string, description: string, 
-    username: string | null = null, date: string | null = null) {
+/**
+ * Create a popup for task display.
+ * 
+ * @param   name        The name of the task.
+ * @param   description The description of the task.
+ * @param   username    The username of the task owner.
+ * @param   date        The limit date of the task.
+ * @param   members     The kanban members.
+ * @returns             The popup container.
+ */
+export function createTaskPopup(task: KanbanTask): HTMLDivElement {
   const container = document.createElement("div")
   container.classList.add("task-popup");
-  container.dataset.taskId = id.toString();
+
+  // Task data
 
   const nameElement = document.createElement("h2");
-  nameElement.textContent = name;
+  nameElement.textContent = task.name;
   container.appendChild(nameElement);
 
-  if (date != null) {
+  if (task.limitDate != null) {
     const dateElement = document.createElement("span");
     dateElement.classList.add("limite-date");
-    dateElement.textContent = "Date limite : " + (new Date(date)).toLocaleDateString();
+    dateElement.textContent = "Date limite : " + task.limitDate.toLocaleDateString();
     container.appendChild(dateElement);
   }
 
-  if (username != null) {
+  if (task.assignUsername != null) {
     const usernameElement = document.createElement("h3");
-    usernameElement.textContent = "Tâche assignée à : " + username;
+    usernameElement.textContent = "Tâche assignée à : " + task.assignUsername;
     container.appendChild(usernameElement);
   }
 
   const descriptionElement = document.createElement("p");
-  descriptionElement.innerHTML = formatMarkdown(description);
+  descriptionElement.innerHTML = formatMarkdown(task.description);
   container.appendChild(descriptionElement);
 
-  const affectationElementToClone = document
-    .querySelector(`.js-task-affect[data-task-id="${id}"]`)
-  if (affectationElementToClone !== null) {
-    const affectationElement = affectationElementToClone.cloneNode(true);
-    bindAffects(affectationElement as Element);
-    container.appendChild(affectationElement);
+  // Task actions
+
+  if (
+    task.assignUsername === null 
+    && task.column.offset < task.column.kanban.getColumns().length - 1
+  ) {
+    const taskActionsElement = document.createElement("div");
+    taskActionsElement.classList.add("task-actions");
+  
+    const taskAcceptButton = document.createElement("button");
+    taskAcceptButton.classList.add("js-accept");
+    taskAcceptButton.innerText = "Accepter";
+    taskAcceptButton.dataset.taskId = task.id.toString();
+    taskActionsElement.appendChild(taskAcceptButton);
+  
+    // Check if the current user is the kanban's owner
+    const owner = task.column.kanban.getMembers().filter((member) => {
+      return member.isOwner;
+    })[0];
+    if (owner.isCurrent) {
+      const affectContainerElement = document.createElement("div");
+      affectContainerElement.classList.add("affect-container");
+
+      const affectSelectElement = document.createElement("select");
+      affectSelectElement.name = "user";
+      task.column.kanban.getMembers().forEach((member) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = member.id.toString();
+        optionElement.innerText = member.username;
+        affectSelectElement.appendChild(optionElement);
+      });
+      affectContainerElement.appendChild(affectSelectElement);
+
+      const affectButtonElement = document.createElement("button");
+      affectButtonElement.classList.add("js-affect");
+      affectButtonElement.classList.add("affect-btn");
+      affectButtonElement.dataset.taskId = task.id.toString();
+      affectButtonElement.innerText = "Affecter";
+      affectContainerElement.appendChild(affectButtonElement);
+
+      taskActionsElement.appendChild(affectContainerElement);
+    }
+  
+    container.appendChild(taskActionsElement);
   }
   
-  createPopup(container, "Fermer");
+  return createPopup(container, "Fermer");
 }

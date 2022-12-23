@@ -39,6 +39,9 @@ table.kanban th > div, table.kanban td > div {
     margin: 10px 0;
     padding: 5px;
     box-sizing: border-box;
+}
+
+table.kanban td > div {
     cursor: pointer;
 }
 
@@ -75,10 +78,6 @@ table.kanban td:not(.add-task) > div .arrows .task-arrow.left {
 
 table.kanban td:not(.add-task) > div .arrows .task-arrow.right {
     right: 0;
-}
-
-table.kanban td:not(.add-task) > div .name {
-    cursor: pointer;
 }
 
 table.kanban td.add-task {
@@ -120,6 +119,10 @@ table.kanban td.td-invisible {
     margin-bottom: 10px;
 }
 
+.task-popup .delete-task-container {
+    padding: 10px 0;
+}
+
 .task-popup .delete-task {
     text-decoration: none;
     padding: 5px;
@@ -133,6 +136,12 @@ table.kanban td.td-invisible {
 .task-popup .delete-task:hover {
     background-color: #973429;
     border: solid #973429 1px;
+}
+
+/* Members */
+
+.members-title {
+    margin-left: 5px;
 }
 
 /* Markdown formatting */
