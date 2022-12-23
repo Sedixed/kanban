@@ -234,7 +234,7 @@ class TaskController extends AbstractController
         $kanban = $task->getKanbanColumn()->getKanban();
 
         if (!$kanban->getUsers()->contains($user) && $user != $kanban->getOwner()) {
-            $this->addFlash('error', 'Erreur lors de la suppression : seul le propriétaire peut effectuer cette action');
+            $this->addFlash('error', 'Erreur lors de la suppression : seul le propriétaire et les membres du kanban peuvent effectuer cette action');
             return $this->redirectToRoute(RouteConstants::KANBAN_ROUTE, [
                 'id' => $kanban->getId()
             ]);
